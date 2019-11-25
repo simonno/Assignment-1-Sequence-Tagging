@@ -65,25 +65,28 @@ def create_dic(input_file_name):
 
 def write_to_mpl_file(mle, dic):
     file = open(mle, "w")
+    unkDic = {}
     for key, value in dic.items():
-        file.write(' '.join(str(x) for x in key) + "\t" + '{}'.format(value) + "\n")
+        if value <= 5:
+            unkDic[key] = dic.get(key, 0) + value
+            continue
+        file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
+
+    for key, value in unkDic.items():
+        file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
+
+    file.write('ALL' + "\t" + '{}'.format(num_words) + "\n")
+
     file.close()
 
 
-def compute_q(t1=' ', t2=' ', t3=' ', lr1=0, lr2=0, lr3=0):
-    return lr1 * (dic_q.get((t1, t2, t3), 0) / dic_q.get((t1, t2), 1)) + lr2 * (
-            dic_q.get((t2, t3), 0) / dic_q.get(t2, 1)) + lr3 * (dic_q.get((t1, t2, t3)) / num_words)
+def compute_q(dic, num_words_count, t1=' ', t2=' ', t3=' ', lr1=0, lr2=0, lr3=0):
+    return lr1 * (dic.get((t1, t2, t3), 0) / dic.get((t1, t2), 1)) + lr2 * (
+            dic.get((t2, t3), 0) / dic.get(t2, 1)) + lr3 * (dic.get((t1, t2, t3)) / num_words_count)
 
 
-def compute_e(x, y):
-    return dic_e.get((x, y), 0) / dic_q.get(y, 1)
-
-
-# def transition_probabilities():
-#     pass
-#
-# def emission_probabilities():
-#     pass
+def compute_e(x, y, dic_e_mle, dic_q_mle):
+    return dic_e_mle.get((x, y), 0) / dic_q_mle.get(y, 1)
 
 
 def main(input_file_name, q_mle, e_mle):

@@ -1,19 +1,20 @@
 import sys
 
+START = 'START'
 dic_q = {}
 dic_e = {}
 num_words = 0
 
 
-def count_first_word(x, b):
-    increment_q(b)
-    increment_e((x, b))
-
-
-def count_second_word(x, b, c):
-    increment_q((b, c))
-    increment_q(c)
-    increment_e((x, c))
+# def count_first_word(x, b):
+#     increment_q(b)
+#     increment_e((x, b))
+#
+#
+# def count_second_word(x, b, c):
+#     increment_q((b, c))
+#     increment_q(c)
+#     increment_e((x, c))
 
 
 def increment(params, dic):
@@ -28,51 +29,50 @@ def increment_e(params):
     increment(params, dic_e)
 
 
+def calculation(x3, c, b, a):
+    increment_q((a, b, c))
+    increment_q((b, c))
+    increment_q(c)
+    increment_e((x3, c))
+
+
 def create_dic(input_file_name):
     global num_words
 
-    f = open(input_file_name, "r")
-    line = f.readline()
+    with open(input_file_name, 'r') as input_file:
+        for line in input_file:
+            split_line = line.split()
+            num_words += len(split_line)
 
-    while len(line) > 0:
-        split_line = line.split()
-        num_words += len(split_line)
+            if len(split_line) > 1:
+                x1, y1 = split_line[0].rsplit('/', 1)
+                calculation(x1.lower(), y1, START, START)
+                if len(split_line) > 2:
+                    x2, y2 = split_line[1].rsplit('/', 1)
+                    calculation(x2.lower(), y2, y1, START)
 
-        if len(split_line) > 1:
-            x1, y1 = split_line[0].rsplit('/', 1)
-            count_first_word(x1, y1)
-            if len(split_line) > 2:
-                x2, y2 = split_line[1].rsplit('/', 1)
-                count_second_word(x1, y1, y2)
+            i = 2
+            while i < len(split_line):
+                x1_a, x2_b, x3_c = split_line[i - 2:i + 1]
+                x1, a = x1_a.rsplit('/', 1)
+                x2, b = x2_b.rsplit('/', 1)
+                x3, c = x3_c.rsplit('/', 1)
 
-        i = 2
-        while i < len(split_line):
-            x1_a, x2_b, x3_c = split_line[i - 2:i + 1]
-            x1, a = x1_a.rsplit('/', 1)
-            x2, b = x2_b.rsplit('/', 1)
-            x3, c = x3_c.rsplit('/', 1)
+                calculation(x3.lower(), c, b, a)
 
-            increment_q((a, b, c))
-            increment_q((b, c))
-            increment_q(c)
-            increment_e((x3, c))
-
-            i += 1
-
-        line = f.readline()
-    f.close()
+                i += 1
 
 
 def write_to_mpl_file(mle, dic):
     file = open(mle, "w")
-    unkDic = {}
+    unk_dic = {}
     for key, value in dic.items():
         if value <= 5:
-            unkDic[key] = dic.get(key, 0) + value
+            unk_dic[key] = dic.get(key, 0) + value
             continue
         file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
 
-    for key, value in unkDic.items():
+    for key, value in unk_dic.items():
         file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
 
     file.write('ALL' + "\t" + '{}'.format(num_words) + "\n")

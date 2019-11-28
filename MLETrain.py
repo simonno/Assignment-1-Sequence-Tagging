@@ -79,8 +79,10 @@ def write_to_mpl_file(mle, dic):
 
     file.close()
 
+
 def compute_q(dic, num_words_count, a=' ', b=' ', c=' ', lr1=0, lr2=0, lr3=0):
-    return lr1 * (dic.get((a, b, c), 0) / dic.get((a, b), 1)) + lr2 * (dic.get((b, c), 0) / dic.get(b, 1)) + lr3 * (dic.get((a, b, c)) / num_words_count)
+    return lr1 * (dic.get((a, b, c), 0) / dic.get((a, b), 1)) + lr2 * (dic.get((b, c), 0) / dic.get(b, 1)) + lr3 * (
+            dic.get((a, b, c)) / num_words_count)
 
 
 def compute_e(x, y, dic_e_mle, dic_q_mle):

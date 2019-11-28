@@ -42,17 +42,21 @@ def create_dic(input_file_name):
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
             split_line = line.split()
-            num_words += len(split_line)
+            num_words_in_line = len(split_line)
+            num_words += num_words_in_line
 
-            if len(split_line) > 1:
+            if num_words_in_line >= 1:
                 x1, y1 = split_line[0].rsplit('/', 1)
                 calculation(x1.lower(), y1, START, START)
-                if len(split_line) > 2:
+                increment_q((START, START))
+                increment_q(START)
+                if num_words_in_line >= 2:
                     x2, y2 = split_line[1].rsplit('/', 1)
                     calculation(x2.lower(), y2, y1, START)
+                    increment_q(START)
 
             i = 2
-            while i < len(split_line):
+            while i < num_words_in_line:
                 x1_a, x2_b, x3_c = split_line[i - 2:i + 1]
                 x1, a = x1_a.rsplit('/', 1)
                 x2, b = x2_b.rsplit('/', 1)
@@ -63,36 +67,44 @@ def create_dic(input_file_name):
                 i += 1
 
 
-def write_to_mpl_file(mle, dic):
-    file = open(mle, "w")
+def write_to_e_mle(output_file):
     unk_dic = {}
-    for key, value in dic.items():
-        if value <= 5:
-            unk_dic[key] = dic.get(key, 0) + value
-            continue
-        file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
+    with open(output_file, 'w') as mle_file:
+        for key, value in dic_e.items():
+            if value <= 5:
+                unk_dic[key[1]] = dic_e.get(key, 0) + value
+                continue
+            mle_file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
 
-    for key, value in unk_dic.items():
-        file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
+        for key, value in unk_dic.items():
+            mle_file.write('*UNK* ' + key + '\t' + '{}'.format(value) + '\n')
 
-    file.write('ALL' + "\t" + '{}'.format(num_words) + "\n")
+        mle_file.write('ALL' + '\t' + '{}'.format(num_words) + "\n")
 
-    file.close()
+
+def write_to_q_mle(output_file):
+    with open(output_file, 'w') as mle_file:
+        for key, value in dic_q.items():
+            if isinstance(key, tuple):
+                mle_file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
+            else:
+                mle_file.write(key + '\t' + '{}'.format(value) + '\n')
+        mle_file.write('ALL' + '\t' + '{}'.format(num_words) + '\n')
 
 
 def compute_q(dic, num_words_count, a=' ', b=' ', c=' ', lr1=0, lr2=0, lr3=0):
     return lr1 * (dic.get((a, b, c), 0) / dic.get((a, b), 1)) + lr2 * (dic.get((b, c), 0) / dic.get(b, 1)) + lr3 * (
-            dic.get((a, b, c)) / num_words_count)
+            dic.get((c), 0) / num_words_count)
 
 
 def compute_e(x, y, dic_e_mle, dic_q_mle):
-    return dic_e_mle.get((x, y), 0) / dic_q_mle.get(y, 1)
+    return dic_e_mle.get((x, y), 0) / dic_q_mle.get((y), 1)
 
 
 def main(input_file_name, q_mle, e_mle):
     create_dic(input_file_name)
-    write_to_mpl_file(q_mle, dic_q)
-    write_to_mpl_file(e_mle, dic_e)
+    write_to_q_mle(q_mle)
+    write_to_e_mle(e_mle)
 
 
 if __name__ == "__main__":

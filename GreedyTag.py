@@ -1,11 +1,14 @@
 import sys
-import MLETrain
+
 import numpy as np
+
+import MLETrain
 
 START = 'START'
 dic_e = {}
 dic_q = {}
 num_word_count = 0
+unk_tsg_list = []
 
 
 def create_dic(mle):
@@ -28,12 +31,22 @@ def action(line):
         global num_word_count
         num_word_count = int(value)
         return
-    split_keys = keys.split(' ')
-    return tuple(split_keys), int(value)
+    elif '*UNK* ' in keys:
+        split_keys = keys.split(' ')
+        global unk_tsg_list
+        unk_tsg_list.append(split_keys[1])
+        return tuple(split_keys), int(value)
+
+    elif ' ' in keys:
+        split_keys = keys.split(' ')
+        return tuple(split_keys), int(value)
+    else:
+        return keys, int(value)
 
 
 def calculate_prob(x, c, b, a):
-    return np.log(MLETrain.compute_e(x, c, dic_e, dic_q)) + np.log(MLETrain.compute_q(dic_q, num_word_count, a, b, c, 0.6, 0.3, 0.1))
+    return np.log(MLETrain.compute_e(x, c, dic_e, dic_q)) + np.log(
+        MLETrain.compute_q(dic_q, num_word_count, a, b, c, 0.6, 0.3, 0.1))
 
 
 def argmax(word, possible_tags_list, b, a):
@@ -58,7 +71,6 @@ def possible_tags(word):
     return tags
 
 
-
 def greedy(input_file_name, greedy_hmm_output):
     tagged_text = ''
 
@@ -67,11 +79,17 @@ def greedy(input_file_name, greedy_hmm_output):
         for line in input_file:
             a = START
             b = START
-            words = line.split(' ')
+            words = line.split('\n')[0].split(' ')
 
-            for index in range(len(words)) :
+            for index in range(len(words)):
                 word = words[index]
-                max_tag = argmax(word, possible_tags(word), b, a)
+                tags = possible_tags(word)
+
+                if len(tags) == 0:
+                    max_tag = argmax('*unk*', unk_tsg_list, b, a)
+                else:
+                    max_tag = argmax(word, tags, b, a)
+
                 a = b
                 b = max_tag
                 tagged_text += str(word) + '/' + str(max_tag) + ' '

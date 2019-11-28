@@ -27,7 +27,7 @@ was VBD	3909
 mistakenly RB	6
 attributed VBN	17
 to IN	9308
-. .	39004
+. .	39020
 ms. NNP	228
 plays VBZ	19
 motor NNP	97
@@ -51,7 +51,7 @@ last JJ	1169
 year NN	2250
 sold VBD	123
 howard NNP	24
-president NN	887
+president NN	888
 and CC	16666
 chief JJ	319
 executive NN	351
@@ -99,10 +99,10 @@ building NN	144
 products NNS	435
 investors NNS	680
 are VBP	3691
-securities NNPS	149
+securities NNPS	151
 exchange NNP	448
 commission NNP	149
-not RB	1373
+not RB	1374
 limit VB	27
 their PRP$	1727
 access NN	62
@@ -168,7 +168,7 @@ shaken VBN	9
 1987 CD	270
 market NN	1880
 crash NN	93
--- :	2027
+-- :	2038
 already RB	316
 against IN	500
 little JJ	221
@@ -406,7 +406,7 @@ with IN	4396
 december NNP	106
 social JJ	46
 choice NN	43
-securities NNS	420
+securities NNS	427
 linked VBN	23
 south NNP	153
 africa NNP	52
@@ -426,7 +426,7 @@ invested VBN	25
 rest NN	91
 going VBG	316
 into IN	921
-bonds NNS	641
+bonds NNS	645
 short-term JJ	100
 high-grade JJ	16
 mortgages NNS	62
@@ -497,7 +497,7 @@ taken VBN	160
 hard JJ	118
 line NN	203
 problem NN	225
-: :	1284
+: :	1337
 scores NNS	15
 does VBZ	494
 so IN	154
@@ -677,7 +677,7 @@ feelings NNS	11
 why WRB	136
 before IN	508
 during IN	437
-? .	394
+? .	396
 gone VBN	52
 either DT	52
 substantial JJ	77
@@ -741,7 +741,7 @@ free-lance JJ	6
 writer NN	26
 ronald NNP	24
 reagan NNP	80
-president NNP	256
+president NNP	257
 rarely RB	19
 consensus NN	30
 various JJ	86
@@ -782,7 +782,7 @@ got VBD	149
 out IN	355
 hand NN	96
 personal JJ	148
-director NNP	20
+director NNP	22
 drew VBD	20
 attention NN	67
 several JJ	380
@@ -1066,7 +1066,7 @@ spurred VBN	7
 chemical NN	64
 monsanto NNP	7
 shell NNP	21
-oil NNP	38
+oil NNP	40
 eli NNP	17
 lilly NNP	29
 co NNP	184
@@ -1118,7 +1118,7 @@ implications NNS	20
 between IN	482
 nomura NNP	26
 industrial NNP	96
-bank NNP	358
+bank NNP	359
 japan NNP	391
 powerful JJ	64
 clash NN	7
@@ -1170,7 +1170,7 @@ biggest JJS	144
 victim NN	18
 far RB	304
 domestic JJ	152
-issues NNS	349
+issues NNS	354
 management NNP	80
 office NNP	62
 casting VBG	7
@@ -1247,7 +1247,7 @@ express NNP	81
 allowed VBD	26
 use VB	134
 accounts NNS	99
-account NN	127
+account NN	128
 attracting VBG	16
 london NNP	236
 overseas RB	39
@@ -1528,7 +1528,7 @@ wonder VB	9
 whether IN	257
 bit NN	50
 slower JJR	24
-municipal JJ	55
+municipal JJ	56
 stadium NN	14
 knows VBZ	38
 used VBD	77
@@ -1598,7 +1598,7 @@ offer NN	298
 undisclosed JJ	11
 third JJ	336
 stewart NNP	11
-services NNPS	45
+services NNPS	46
 received VBD	115
 totaling VBG	33
 build VB	115
@@ -1607,7 +1607,7 @@ water NNP	13
 utility NN	47
 pse NNP	8
 operator NN	41
-houston NNP	49
+houston NNP	50
 gas NN	168
 liberty NNP	7
 bancorp NNP	13
@@ -1846,7 +1846,7 @@ acquired VBN	72
 sony NNP	86
 people NNPS	6
 savings NNPS	18
-financial NNP	121
+financial NNP	122
 undervalued VBN	7
 unfairly RB	8
 associated VBN	47
@@ -2081,7 +2081,7 @@ formation NN	11
 combining VBG	11
 agricultural JJ	13
 america NNP	190
-projected VBN	17
+projected VBN	18
 revenue NN	463
 1.5 CD	68
 william NNP	126
@@ -2089,13 +2089,13 @@ el NNP	30
 paso NNP	7
 natural NNP	10
 gas NNP	37
-energy NN	81
+energy NN	82
 additional JJ	172
 post NN	56
 h. NNP	41
 61 CD	22
 continues VBZ	94
-chairman NN	462
+chairman NN	463
 parent NN	132
 founder NN	38
 communications NNS	50
@@ -2110,7 +2110,7 @@ investments NNPS	7
 associates NNPS	47
 circumstances NNS	38
 unable JJ	41
-comment NN	90
+comment NN	91
 medical JJ	73
 devices NNS	46
 dr. NNP	98
@@ -2205,7 +2205,7 @@ political JJ	253
 tied VBN	32
 ruling VBG	19
 fate NN	12
-- :	76
+- :	77
 event NN	49
 affect VB	46
 price NNP	47
@@ -2263,7 +2263,7 @@ positions NNS	74
 finished VBD	42
 early JJ	232
 wall NNP	268
-street NNP	264
+street NNP	265
 waive VB	9
 makers NNS	136
 wary JJ	16
@@ -2470,7 +2470,7 @@ surveyed VBN	19
 8.33 CD	7
 flagship NN	11
 manufacturers NNPS	26
-hanover NNP	34
+hanover NNP	35
 maturity NN	66
 range NN	100
 maturities NNS	15
@@ -2478,7 +2478,7 @@ san NNP	325
 francisco NNP	245
 bankamerica NNP	23
 wells NNP	39
-fargo NNP	20
+fargo NNP	21
 8.32 CD	7
 reach VB	58
 french NNP	19
@@ -2511,7 +2511,7 @@ u.s.a. NNP	7
 kind NN	102
 wins VBZ	9
 responses NNS	12
-! .	59
+! .	62
 americans NNPS	76
 followed VBN	45
 malcolm NNP	27
@@ -2582,7 +2582,7 @@ rise VB	70
 off IN	116
 fields NNS	28
 feel VB	43
-god NNP	14
+god NNP	15
 view NN	95
 your PRP$	205
 kept VBD	39
@@ -3003,6 +3003,7 @@ illegal JJ	39
 safety NN	47
 saul NNP	7
 public NNP	30
+affairs NNPS	9
 mci NNP	34
 communications NNPS	43
 network NN	139
@@ -3103,7 +3104,7 @@ project NNP	8
 declining VBG	61
 facilities NNS	79
 c. NNP	51
-smith NNP	94
+smith NNP	95
 39 CD	34
 title NN	32
 armstrong NNP	17
@@ -3234,7 +3235,7 @@ nuclear NNP	8
 regulatory JJ	61
 mistakes NNS	12
 closed JJ	30
-citicorp NNP	52
+citicorp NNP	53
 weekly JJ	39
 bids NNS	68
 submitted VBN	20
@@ -3271,7 +3272,7 @@ authorities NNS	46
 germans NNPS	18
 accused VBN	28
 stealing VBG	9
-hess NNP	10
+hess NNP	11
 allegedly RB	24
 searching VBG	9
 secrets NNS	8
@@ -3376,7 +3377,7 @@ sunnyvale NNP	12
 announce VB	34
 supply VB	31
 control NNP	53
-data NNP	71
+data NNP	72
 label NN	9
 cost VB	57
 150,000 CD	15
@@ -3551,7 +3552,7 @@ barrett NNP	7
 weekes NNP	8
 stamford NNP	16
 high NNP	18
-technology NNP	50
+technology NNP	51
 holding NNP	31
 acquired VBD	57
 ousted VBN	9
@@ -4184,7 +4185,7 @@ eliminated VBN	11
 rare JJ	26
 pennzoil NNP	11
 litigation NN	50
-texaco NNP	23
+texaco NNP	24
 covers VBZ	20
 prudent JJ	9
 manner NN	11
@@ -4258,12 +4259,12 @@ flashy JJ	6
 mid-1980s NNS	6
 manhattan NNP	73
 mitsui NNP	8
-exxon NNP	56
+exxon NNP	57
 building NNP	13
 arco NNP	10
 plaza NNP	8
 life NNP	55
-atlanta NNP	32
+atlanta NNP	33
 ibm NNP	168
 tower NNP	16
 grew VBD	61
@@ -4912,7 +4913,7 @@ middle JJ	13
 dealerships NNS	8
 visit VB	14
 gain VB	44
-check VB	16
+check VB	17
 arrived VBD	12
 door NN	39
 afraid JJ	17
@@ -6626,7 +6627,7 @@ discrimination NN	19
 popularity NN	17
 presidential JJ	24
 hurdles NNS	7
-a.m. NN	16
+a.m. NN	18
 dan NNP	14
 ill NNP	8
 stern NNP	6
@@ -6641,7 +6642,7 @@ advances NNS	18
 donaldson NNP	28
 lufkin NNP	26
 jenrette NNP	22
-securities NNP	96
+securities NNP	99
 adviser NN	52
 evaluation NN	15
 publishing NNP	8
@@ -6672,12 +6673,12 @@ speculated VBD	9
 38 CD	49
 stone NNP	22
 container NNP	8
-pfizer NNP	8
-schering-plough NNP	9
+pfizer NNP	9
+schering-plough NNP	10
 upjohn NNP	6
 advisory JJ	13
 recommended VBD	15
-chevron NNP	21
+chevron NNP	22
 usx NNP	49
 icahn NNP	31
 financial-services NNS	12
@@ -6782,7 +6783,7 @@ propose VB	9
 1970 CD	12
 lewis NNP	25
 barney NNP	27
-harris NNP	33
+harris NNP	34
 upham NNP	20
 refuse VBP	8
 craig NNP	21
@@ -6832,7 +6833,7 @@ bounced VBD	7
 lists NNS	20
 calendar NN	9
 tunnel NN	6
-municipals NNS	11
+municipals NNS	16
 permit VB	19
 trim VB	10
 half RB	6
@@ -7144,7 +7145,7 @@ second NNP	9
 tokyu NNP	17
 fueled VBD	8
 construction NNP	6
-metals NNS	46
+metals NNS	47
 weaker JJR	31
 impending JJ	9
 ig NNP	6
@@ -7472,7 +7473,7 @@ recruiting NN	6
 backed VBD	20
 beneficiaries NNS	15
 drafted VBN	6
-foster NNP	10
+foster NNP	11
 physicians NNS	6
 48 CD	48
 lets VBZ	6
@@ -7768,7 +7769,7 @@ sells NNP	12
 assess VB	11
 exist VB	14
 steal VB	10
-copper NN	60
+copper NN	62
 highland NNP	9
 cananea NNP	9
 acted VBD	9
@@ -7850,7 +7851,7 @@ mcgraw-hill NNP	7
 seasonally RB	24
 175 CD	9
 nine-month JJ	19
-contractors NNS	20
+contractors NNS	21
 threatened VBN	15
 across-the-board JJ	8
 a SYM	10
@@ -8401,7 +8402,7 @@ vancouver NNP	8
 mackenzie NNP	12
 delta NN	9
 independent NNP	13
-petroleum NNP	40
+petroleum NNP	42
 transcanada NNP	12
 export VB	13
 royal NNP	30
@@ -8664,7 +8665,6 @@ reinsurance NN	33
 becomes VBZ	27
 belgian JJ	9
 provisional JJ	10
-affairs NNPS	8
 nashua NNP	17
 dutch NNP	7
 strengthening VBG	7
@@ -8694,7 +8694,7 @@ half DT	32
 chaos NN	7
 bears VBZ	10
 averaging VBG	6
-shock NN	15
+shock NN	16
 flavor NN	7
 measures VBZ	11
 minus CC	6
@@ -9160,7 +9160,7 @@ greatly RB	23
 doubling VBG	7
 foods NNS	9
 bolstered VBN	11
-bellsouth NNP	33
+bellsouth NNP	34
 lin NNP	63
 mccaw NNP	50
 cellular NNP	11
@@ -9589,7 +9589,7 @@ part NNP	7
 catastrophic JJ	12
 lockheed NNP	19
 innopac NNP	7
-mobil NNP	29
+mobil NNP	30
 gnp NNP	24
 strengthened VBD	6
 hampshire NNP	35
@@ -9618,7 +9618,7 @@ stock VB	12
 disappointments NNS	10
 fragile JJ	9
 13.4 CD	10
-richfield NNP	7
+richfield NNP	8
 comprehensive NNP	13
 cracks NNS	8
 faa NNP	8
@@ -10180,6 +10180,7 @@ refiners NNS	6
 annualized JJ	7
 benefiting VBG	8
 benefited VBN	9
+edgar NNP	6
 benefited VBD	8
 crude JJ	24
 mitterrand NNP	7

@@ -19,11 +19,11 @@ def viterbi(input_file_name, hmm_viterbi_predictions):
 
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
-            v_table = [[[]]]
-            bq = []
             words = line.split('\n')[0].split(' ')
             prev_tags = [START]
             prev_prev_tags = [START]
+            v_table = {(0, START, START): 1}
+            bq = {}
             for i in range(len(words)):
                 w_i = words[i]
                 possible_tags_w_i = dicUtils.possible_tags(dic_e, w_i)
@@ -33,16 +33,13 @@ def viterbi(input_file_name, hmm_viterbi_predictions):
                         # max_prob = -np.math.inf
                         max_tag = t1
                         for t2 in prev_prev_tags:
-                            prob = 1
-                            if not (i == 0 and t2 == START and t1 == START):
-                                prob = v_table[i - 1][t2][t1] * get_score(w_i, possible_tags_w_i[r], prev_tags[t1],
-                                                                          prev_prev_tags[t2])
+                            prob = v_table.get((i, t2, t1)) * get_score(w_i, r, t1, t2)
                             if prob > max_prob:
                                 max_prob = prob
                                 max_tag = t2
 
-                        v_table[i][t1][r] = max_prob
-                        bq[i][t1][r] = max_tag
+                        v_table[(i + 1, t1, r)] = max_prob
+                        bq[(i + 1, t1, r)] = max_tag
 
                 prev_prev_tags = prev_tags
                 prev_tags = possible_tags_w_i

@@ -59,4 +59,4 @@ def compute_q(dic_q, words_count, a=' ', b=' ', c=' ', lr1=0.0, lr2=0.0, lr3=0.0
 
 
 def compute_e(dic_e, dic_q, x, y):
-    return dic_e.get((x, y), 0) / dic_q.get(y, 1)
+    return dic_e.get((x.lower(), y), 0) / dic_q.get(y, 1)

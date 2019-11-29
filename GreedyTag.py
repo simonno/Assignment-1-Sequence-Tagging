@@ -46,7 +46,7 @@ def action(line):
 
 def calculate_prob(x, c, b, a):
     return np.log(MLETrain.compute_e(x, c, dic_e, dic_q)) + np.log(
-        MLETrain.compute_q(dic_q, num_word_count, a, b, c, 0.6, 0.3, 0.1))
+        MLETrain.compute_q(dic_q, num_word_count, a, b, c, 0.9, 0.09, 0.001))
 
 
 def argmax(word, possible_tags_list, b, a):
@@ -82,11 +82,11 @@ def greedy(input_file_name, greedy_hmm_output):
             words = line.split('\n')[0].split(' ')
 
             for index in range(len(words)):
-                word = words[index]
+                word = words[index].lower()
                 tags = possible_tags(word)
 
                 if len(tags) == 0:
-                    max_tag = argmax('*unk*', unk_tsg_list, b, a)
+                    max_tag = argmax('*UNK*', unk_tsg_list, b, a)
                 else:
                     max_tag = argmax(word, tags, b, a)
 

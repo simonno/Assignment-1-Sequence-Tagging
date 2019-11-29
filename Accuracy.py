@@ -1,7 +1,7 @@
 import sys
 
-list_greedy = (())
-list_dev = (())
+list_greedy = [[]]
+list_dev = [[]]
 
 def create_dic(input_file_name):
     list = [[]]

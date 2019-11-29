@@ -17,6 +17,9 @@ def accuracy(algorithm_output, dev_output):
                 else:
                     diff.append((algo_tuple, result_tuple))
                 total += 1
+    print("accuracy = " + str((acc/total)*100))
+    for item in diff:
+        print(item)
 
 
 def main(algorithm_output, result_output):

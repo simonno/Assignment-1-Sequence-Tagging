@@ -82,13 +82,13 @@ def greedy(input_file_name, greedy_hmm_output):
             words = line.split('\n')[0].split(' ')
 
             for index in range(len(words)):
-                word = words[index].lower()
-                tags = possible_tags(word)
+                word = words[index]
+                tags = possible_tags(word.lower())
 
                 if len(tags) == 0:
                     max_tag = argmax('*UNK*', unk_tsg_list, b, a)
                 else:
-                    max_tag = argmax(word, tags, b, a)
+                    max_tag = argmax(word.lower(), tags, b, a)
 
                 a = b
                 b = max_tag

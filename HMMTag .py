@@ -1,50 +1,64 @@
-import dicUtils
 import sys
-import numpy as np
 
+import dicUtils
+
+START = 'START'
 dic_e = {}
 dic_q = {}
-START = 'START'
-v_table = []
-bp = [] # pointers
+num_word_count = 0
+unk_tsg_list = []
 
-def getScore(word,tag,prev_tag,prev_prev_tag):
-    pass
 
-def argmax(i, word, possible_tags_list, possible_prev_tags_list, possible_prev_prev_tags_list):
-    max_tag = possible_tags_list[0]
-    max_prob = -np.math.inf
-    for tag, prev_tag in possible_tags_list:
-        for prev_tag in possible_prev_tags_list:
-            for prev_prev_tag in possible_prev_tags_list:
-                prob = v_table[i-1][prev_prev_tag][prev_tag]*getScore(word, tag, prev_tag, prev_prev_tag)
-                if prob > max_prob:
-                    max_prob = prob
-                    max_tag = tag
-    return max_tag
+def get_score(word, tag, prev_tag, prev_prev_tag):
+    return dicUtils.compute_e(dic_e, dic_q, word, tag) * dicUtils.compute_q(dic_q, num_word_count, prev_prev_tag,
+                                                                            prev_tag, tag, 0.9, 0.09, 0.01)
+
 
 def viterbi(input_file_name, hmm_viterbi_predictions):
-    global v_table
+    # Y = []
+
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
-            a = START
-            b = START
+            v_table = [[[]]]
+            bq = []
             words = line.split('\n')[0].split(' ')
-            i=2
+            prev_tags = [START]
+            prev_prev_tags = [START]
             for i in range(len(words)):
-                word = words[i]
-                prev_word = words[i-1]
-                tags = dicUtils.possible_tags(word.lower(), dic_e)
-                prev_tags = dicUtils.possible_tags(prev_tags.lower(), dic_e)
-                v_table[line][i][] = argmax(i, word, tags, prev_tags, a)
-                bp =
+                w_i = words[i]
+                possible_tags_w_i = dicUtils.possible_tags(dic_e, w_i)
+                for r in possible_tags_w_i:
+                    for t1 in prev_tags:
+                        max_prob = 0
+                        # max_prob = -np.math.inf
+                        max_tag = t1
+                        for t2 in prev_prev_tags:
+                            prob = 1
+                            if not (i == 0 and t2 == START and t1 == START):
+                                prob = v_table[i - 1][t2][t1] * get_score(w_i, possible_tags_w_i[r], prev_tags[t1],
+                                                                          prev_prev_tags[t2])
+                            if prob > max_prob:
+                                max_prob = prob
+                                max_tag = t2
 
+                        v_table[i][t1][r] = max_prob
+                        bq[i][t1][r] = max_tag
+
+                prev_prev_tags = prev_tags
+                prev_tags = possible_tags_w_i
+
+            print(v_table)
+            # for i in reversed(range(len(words))):
+            #     for [r,t] in v_table[i]:
+            #         for r in v_table[i][t]:
 
 
 def main(input_file_name, q_mle, e_mle, hmm_viterbi_predictions, extra_file_name):
-    global dic_e, dic_q
-    dic_e = dicUtils.create_dic(e_mle)
-    dic_q = dicUtils.create_dic(q_mle)
+    global dic_q, dic_e, num_word_count, unk_tsg_list
+    dic_e, num_word_count, unk_tsg_list = dicUtils.create_dic(e_mle)
+    dic_q, _, _ = dicUtils.create_dic(q_mle)
+    viterbi(input_file_name, hmm_viterbi_predictions)
+
 
 if __name__ == "__main__":
     main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])

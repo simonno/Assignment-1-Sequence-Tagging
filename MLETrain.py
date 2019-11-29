@@ -91,23 +91,14 @@ def write_to_q_mle(output_file):
                 mle_file.write(key + '\t' + '{}'.format(value) + '\n')
         mle_file.write('ALL' + '\t' + '{}'.format(num_words) + '\n')
 
-def write_to_q_mle(output_file):
-    with open(output_file, 'w') as mle_file:
-        for key, value in dic_q.items():
-            if isinstance(key, tuple):
-                mle_file.write(' '.join(str(x) for x in key) + '\t' + '{}'.format(value) + '\n')
-            else:
-                mle_file.write(key + '\t' + '{}'.format(value) + '\n')
-        mle_file.write('ALL' + '\t' + '{}'.format(num_words) + '\n')
 
-
-def compute_q(dic, num_words_count, a=' ', b=' ', c=' ', lr1=0, lr2=0, lr3=0):
-    return lr1 * (dic.get((a, b, c), 0) / dic.get((a, b), 1)) + lr2 * (dic.get((b, c), 0) / dic.get(b, 1)) + lr3 * (
-        dic.get((c), 0) / num_words_count)
-
-
-def compute_e(x, y, dic_e_mle, dic_q_mle):
-    return dic_e_mle.get((x, y), 0) / dic_q_mle.get((y), 1)
+# def compute_q(dic, num_words_count, a=' ', b=' ', c=' ', lr1=0, lr2=0, lr3=0):
+#     return lr1 * (dic.get((a, b, c), 0) / dic.get((a, b), 1)) + lr2 * (dic.get((b, c), 0) / dic.get(b, 1)) + lr3 * (
+#             dic.get(c, 0) / num_words_count)
+#
+#
+# def compute_e(x, y, dic_e_mle, dic_q_mle):
+#     return dic_e_mle.get((x, y), 0) / dic_q_mle.get((y), 1)
 
 
 def main(input_file_name, q_mle, e_mle):

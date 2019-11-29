@@ -1,22 +1,26 @@
 import sys
+
 import numpy as np
+
 import dicUtils
-import MLETrain
 
 START = 'START'
 dic_e = {}
 dic_q = {}
+num_word_count = 0
 unk_tsg_list = []
+
 
 def argmax(word, possible_tags_list, b, a):
     max_tag = possible_tags_list[0]
     max_prob = -np.math.inf
     for tag in possible_tags_list:
-        prob = dicUtils.get_score(word, tag, b, a)
+        prob = dicUtils.get_score(dic_e, dic_q, num_word_count, word, tag, b, a)
         if prob > max_prob:
             max_prob = prob
             max_tag = tag
     return max_tag
+
 
 def greedy(input_file_name, greedy_hmm_output):
     tagged_text = ''
@@ -30,7 +34,7 @@ def greedy(input_file_name, greedy_hmm_output):
 
             for index in range(len(words)):
                 word = words[index]
-                tags = dicUtils.possible_tags(word.lower(), dic_e)
+                tags = dicUtils.possible_tags(dic_e, word.lower())
 
                 if len(tags) == 0:
                     max_tag = argmax('*UNK*', unk_tsg_list, b, a)
@@ -49,9 +53,9 @@ def greedy(input_file_name, greedy_hmm_output):
 
 
 def main(input_file_name, q_mle, e_mle, greedy_hmm_output, extra_file_name):
-    global dic_e, dic_q
-    dic_e = dicUtils.create_dic(e_mle)
-    dic_q = dicUtils.create_dic(q_mle)
+    global dic_q, dic_e, num_word_count, unk_tsg_list
+    dic_e, num_word_count, unk_tsg_list = dicUtils.create_dic(e_mle)
+    dic_q, _, _ = dicUtils.create_dic(q_mle)
     greedy(input_file_name, greedy_hmm_output)
 
 

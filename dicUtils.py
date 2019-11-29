@@ -1,9 +1,6 @@
 import numpy as np
-import MLETrain
 
 START = 'START'
-dic_e = {}
-dic_q = {}
 num_word_count = 0
 unk_tsg_list = []
 
@@ -19,7 +16,7 @@ def create_dic(mle):
             except:
                 continue
 
-    return dic
+    return dic, num_word_count, unk_tsg_list
 
 
 def action(line):
@@ -40,7 +37,8 @@ def action(line):
     else:
         return keys, int(value)
 
-def possible_tags(word, dic_e):
+
+def possible_tags(dic_e, word):
     tags = []
     word = word.lower()
     for key in dic_e.keys():
@@ -50,6 +48,15 @@ def possible_tags(word, dic_e):
 
     return tags
 
-def get_score(x, c, b, a):
-    return np.log(MLETrain.compute_e(x, c, dic_e, dic_q)) + np.log(
-        MLETrain.compute_q(dic_q, num_word_count, a, b, c, 0.9, 0.09, 0.001))
+
+def get_score(dic_e, dic_q, words_count, x, c, b, a):
+    return np.log(compute_e(dic_e, dic_q, x, c)) + np.log(compute_q(dic_q, words_count, a, b, c, 0.9, 0.09, 0.01))
+
+
+def compute_q(dic_q, words_count, a=' ', b=' ', c=' ', lr1=0.0, lr2=0.0, lr3=0.0):
+    return lr1 * (dic_q.get((a, b, c), 0) / dic_q.get((a, b), 1)) + lr2 * (
+            dic_q.get((b, c), 0) / dic_q.get(b, 1)) + lr3 * (dic_q.get(c, 0) / words_count)
+
+
+def compute_e(dic_e, dic_q, x, y):
+    return dic_e.get((x, y), 0) / dic_q.get(y, 1)

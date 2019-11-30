@@ -1,83 +1,130 @@
 import sys
+from datetime import datetime
 
 import numpy as np
 
-import dicUtils
+import MLETrain
+from Utils.DictUtils import DictUtils
+from Utils.FileUtils import FileUtils
+from Utils.WordSignature import WordSignatures
 
 START = 'START'
-dic_e = {}
-dic_q = {}
-num_word_count = 0
-unk_tsg_list = []
+UNK = '*unk*'
 
 
-def get_score(word, tag, prev_tag, prev_prev_tag):
-    return dicUtils.compute_e(dic_e, dic_q, word, tag) * dicUtils.compute_q(dic_q, num_word_count, prev_prev_tag,
-                                                                            prev_tag, tag, 0.9, 0.09, 0.01)
+def get_words(sentence):
+    return sentence.split(' ')
 
 
-def viterbi(input_file_name, hmm_viterbi_predictions):
-    # Y = []
+def get_word_signatures_tag(word, dict_e, unk_tag_list):
+    signatures = WordSignatures.get_word_signatures(word)
+    if signatures == [word.lower()]:
+        return {UNK: unk_tag_list}
+    else:
+        signatures_tags = dict()
+        for signature in signatures:
+            signatures_tags[signature] = DictUtils.possible_tags(signature, dict_e)
+        return signatures_tags
 
-    with open(input_file_name, 'r') as input_file, open(hmm_viterbi_predictions, 'w') as output_file:
-        for line in input_file:
-            words = line.split('\n')[0].split(' ')
-            prev_tags = [START]
-            prev_prev_tags = [START]
-            v_table = {(0, START, START): 1}
-            bq = {}
-            for i in range(1, len(words) + 1):
-                w_i = words[i - 1]
-                possible_tags_w_i = dicUtils.possible_tags(dic_e, w_i)
-                for r in possible_tags_w_i:
-                    for t1 in prev_tags:
-                        max_prob = -np.math.inf
-                        max_tag = t1
-                        for t2 in prev_prev_tags:
-                            if i == 1 and t1 == START and t2 == START:
-                                prob = 1
-                            else:
-                                prob = v_table.get((i - 1, t2, t1)) * get_score(w_i, r, t1, t2)
-                            if prob > max_prob:
-                                max_prob = prob
-                                max_tag = t2
 
-                        v_table[(i, t1, r)] = max_prob
-                        bq[(i, t1, r)] = max_tag
+def possible_tags(word, dict_e, unk_tag_list):
+    words_tags = DictUtils.possible_tags(word, dict_e)
+    if len(words_tags) == 0:
+        return get_word_signatures_tag(word, dict_e, unk_tag_list)
+    else:
+        return {word: words_tags}
 
-                prev_prev_tags = prev_tags
-                prev_tags = possible_tags_w_i
 
-            n = len(words)
-            possible_tags_w_i = dicUtils.possible_tags(dic_e, words[-1])
-            prev_tags = dicUtils.possible_tags(dic_e, words[-2])
-            y_n = ''
-            y_n_1 = ''
-            max_prob = -np.math.inf
-            for r in possible_tags_w_i:
-                for t in prev_tags:
-                    prob = v_table.get((n, t, r))
-                    if max_prob < prob:
-                        max_prob = prob
-                        y_n = r
-                        y_n_1 = t
+def max_prob_and_tag(v_table, i, w_i, tag, prev_tag, prev_prev_tags, dict_q, dict_e):
+    max_prob = -np.inf
+    max_tag = prev_prev_tags[0]
+    for prev_prev_tag in prev_prev_tags:
+        prob = v_table[(i - 1, prev_prev_tag, prev_tag)] + MLETrain.get_score(w_i.lower(), tag, prev_tag, prev_prev_tag,
+                                                                              dict_q,
+                                                                              dict_e)
+        if prob > max_prob:
+            max_prob = prob
+            max_tag = prev_prev_tag
 
-            tagged_line = '{0}/{1} {2}/{3}\n'.format(words[-2], y_n_1, words[-1], y_n)
-            for i in reversed(range(1, n - 1)):
-                y_i = bq[(i + 2, y_n_1, y_n)]
-                tagged_line = '{0}/{1} {2}'.format(words[i], y_i, tagged_line)
-                y_n = y_n_1
-                y_n_1 = y_i
+    return max_prob, max_tag
 
-            print(tagged_line)
-            output_file.write(tagged_line)
+
+def calc_v_table_at_i(v_table, bq, i, dict_tags, prev_tags, prev_prev_tags, dict_q, dict_e, unk_tag_list):
+    for word, tags in dict_tags.items():
+        for tag in tags:
+            for prev_tag in prev_tags:
+                max_prob, max_tag = max_prob_and_tag(v_table, i, word, tag, prev_tag, prev_prev_tags, dict_q, dict_e)
+                v_table[(i, prev_tag, tag)] = max_prob
+                bq[(i, prev_tag, tag)] = max_tag
+
+
+def get_backtrack(v_table, bq, words):
+    n = len(words) - 1
+    y_n = ''
+    y_n_1 = ''
+    max_prob = -np.math.inf
+
+    for key, value in v_table.items():
+        if key[0] == n and max_prob < value:
+            max_prob = value
+            y_n = key[2]
+            y_n_1 = key[1]
+
+    if n == 0:
+        tagged_line = [(words[-1], y_n)]
+    else:
+        tagged_line = [(words[-2], y_n_1), (words[-1], y_n)]
+        for i in reversed(range(n - 1)):
+            y_i = bq[(i + 2, y_n_1, y_n)]
+            tagged_line.insert(0, (words[i], y_i))
+            y_n = y_n_1
+            y_n_1 = y_i
+
+    return tagged_line
+
+
+def viterbi(sentences, dict_q, dict_e, unk_tag_list):
+    tagged_text = list()
+    for sentence in sentences:
+        words = get_words(sentence)
+
+        v_table = {(-1, START, START): 1}
+        bq = dict()
+        prev_tags = [START]
+        prev_prev_tags = [START]
+        for i in range(len(words)):
+            w_i = words[i]
+            dict_tags = possible_tags(w_i, dict_e, unk_tag_list)
+            calc_v_table_at_i(v_table, bq, i, dict_tags, prev_tags, prev_prev_tags, dict_q, dict_e, unk_tag_list)
+
+            prev_prev_tags = prev_tags
+            prev_tags = []
+            for list_tags in dict_tags.values():
+                prev_tags += list_tags
+
+        tagged_line = get_backtrack(v_table, bq, words)
+
+        print(tagged_line)
+        tagged_text.append(tagged_line)
+    return tagged_text
+
+
+# def write_tagged_text(hmm_viterbi_predictions, tagged_text):
+#     with open(hmm_viterbi_predictions, 'w') as file:
+#         file.writelines(tagged_text)
 
 
 def main(input_file_name, q_mle, e_mle, hmm_viterbi_predictions, extra_file_name):
-    global dic_q, dic_e, num_word_count, unk_tsg_list
-    dic_e, num_word_count, unk_tsg_list = dicUtils.create_dic(e_mle)
-    dic_q, _, _ = dicUtils.create_dic(q_mle)
-    viterbi(input_file_name, hmm_viterbi_predictions)
+    start = datetime.now()
+    sentences = FileUtils.read_lines(input_file_name)
+    dict_q = DictUtils.convert_line_to_dict(FileUtils.read_lines(q_mle))
+    dict_e = DictUtils.convert_line_to_dict(FileUtils.read_lines(e_mle))
+    unk_tag_list = DictUtils.possible_tags('*UNK*', dict_e)
+    tagged_text = viterbi(sentences, dict_q, dict_e, unk_tag_list)
+    FileUtils.write_tagged_text(hmm_viterbi_predictions, tagged_text)
+
+    end = datetime.now()
+    print('Running Time: {0}'.format(end - start))
 
 
 if __name__ == "__main__":

@@ -4,11 +4,12 @@ from datetime import datetime
 import numpy as np
 
 import MLETrain
-from DictUtils import DictUtils
-from FileUtils import FileUtils
-from WordSignature import WordSignatures
+from Utils.DictUtils import DictUtils
+from Utils.FileUtils import FileUtils
+from Utils.WordSignature import WordSignatures
 
 START = 'START'
+UNK = '*unk*'
 
 
 def argmax(word, possible_tags_list, prev_tag, prev_prev_tag, dict_q, dict_e):
@@ -24,12 +25,12 @@ def argmax(word, possible_tags_list, prev_tag, prev_prev_tag, dict_q, dict_e):
 
 def get_word_signatures_tag(word, dict_e, unk_tag_list):
     signatures = WordSignatures.get_word_signatures(word)
-    if word in signatures:
+    if signatures == [word.lower()]:
         return unk_tag_list
     else:
         signatures_tags = list()
         for signature in signatures:
-            signatures_tags.append(DictUtils.possible_tags(signature, dict_e))
+            signatures_tags += DictUtils.possible_tags(signature, dict_e)
         return signatures_tags
 
 
@@ -70,7 +71,7 @@ def main(input_file_name, q_mle, e_mle, greedy_hmm_output, extra_file_name):
     sentences = FileUtils.read_lines(input_file_name)
     dict_q = DictUtils.convert_line_to_dict(FileUtils.read_lines(q_mle))
     dict_e = DictUtils.convert_line_to_dict(FileUtils.read_lines(e_mle))
-    unk_tag_list = DictUtils.possible_tags('*UNK*', dict_e)
+    unk_tag_list = DictUtils.possible_tags(UNK, dict_e)
     tagged_text = greedy(sentences, dict_q, dict_e, unk_tag_list)
     FileUtils.write_tagged_text(greedy_hmm_output, tagged_text)
     end = datetime.now()

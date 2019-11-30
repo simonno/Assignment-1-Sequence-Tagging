@@ -3,9 +3,9 @@ from datetime import datetime
 
 import numpy as np
 
-from DictUtils import DictUtils
-from FileUtils import FileUtils
-from MathUtils import MathUtils
+from Utils.DictUtils import DictUtils
+from Utils.FileUtils import FileUtils
+from Utils.MathUtils import MathUtils
 
 
 def create_dicts(sentences):
@@ -40,7 +40,11 @@ def compute_e(word, tag, dict_q, dict_e):
 
 
 def get_score(word, tag, prev_tag, prev_prev_tag, dict_q, dict_e):
-    return np.log(compute_q(dict_q, tag, prev_tag, prev_prev_tag)) + np.log(compute_e(word, tag, dict_q, dict_e))
+    try:
+        return np.log(compute_q(dict_q, tag, prev_tag, prev_prev_tag)) + np.log(
+            compute_e(word.lower(), tag, dict_q, dict_e))
+    except:
+        return -np.inf
 
 
 def main(input_file_name, q_mle, e_mle):

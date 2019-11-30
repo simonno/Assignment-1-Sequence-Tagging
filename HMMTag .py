@@ -11,9 +11,9 @@ num_word_count = 0
 unk_tsg_list = []
 
 
-# def get_score(word, tag, prev_tag, prev_prev_tag):
-#     return dicUtils.compute_e(dic_e, dic_q, word, tag) * dicUtils.compute_q(dic_q, num_word_count, prev_prev_tag,
-#                                                                             prev_tag, tag, 0.9, 0.09, 0.01)
+def get_score(word, tag, prev_tag, prev_prev_tag):
+    return dicUtils.compute_e(dic_e, dic_q, word, tag) * dicUtils.compute_q(dic_q, num_word_count, prev_prev_tag,
+                                                                            prev_tag, tag, 0.9, 0.09, 0.01)
 
 
 def viterbi(input_file_name, hmm_viterbi_predictions):
@@ -34,8 +34,10 @@ def viterbi(input_file_name, hmm_viterbi_predictions):
                         max_prob = -np.math.inf
                         max_tag = t1
                         for t2 in prev_prev_tags:
-                            prob = v_table.get((i - 1, t2, t1)) * dicUtils.get_score(dic_e, dic_q, num_word_count, w_i,
-                                                                                     r, t1, t2)
+                            if i == 1 and t1 == START and t2 == START:
+                                prob = 1
+                            else:
+                                prob = v_table.get((i - 1, t2, t1)) * get_score(w_i, r, t1, t2)
                             if prob > max_prob:
                                 max_prob = prob
                                 max_tag = t2

@@ -109,13 +109,9 @@ def viterbi(sentences, dict_q, dict_e, unk_tag_list):
     return tagged_text
 
 
-# def write_tagged_text(hmm_viterbi_predictions, tagged_text):
-#     with open(hmm_viterbi_predictions, 'w') as file:
-#         file.writelines(tagged_text)
-
-
 def main(input_file_name, q_mle, e_mle, hmm_viterbi_predictions, extra_file_name):
     start = datetime.now()
+
     sentences = FileUtils.read_lines(input_file_name)
     dict_q = DictUtils.convert_line_to_dict(FileUtils.read_lines(q_mle))
     dict_e = DictUtils.convert_line_to_dict(FileUtils.read_lines(e_mle))

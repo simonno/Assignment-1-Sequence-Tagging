@@ -22,3 +22,13 @@ class FileUtils:
             for tagged_sentence in tagged_text:
                 tuples = ['{0}/{1}'.format(tuple[0], tuple[1]) for tuple in tagged_sentence]
                 file.write(' '.join(tuples) + '\n')
+
+    @staticmethod
+    def write_features(file_name, features):
+        with open(file_name, 'w') as file:
+            for tag, tag_features_dict in features.items():
+                line = tag
+                for feature_key , feature_value in tag_features_dict.items():
+                    line += ' {0}={1}'.format(feature_key,feature_value)
+
+                file.write(line + '\n')

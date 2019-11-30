@@ -33,5 +33,5 @@ class WordSignatures:
             signatures.append("^" + "unk4")
         elif re.compile('^.{5,6}$').search(word) is not None or re.compile('^.{7,8}$').search(word) is not None:
             signatures.append("^" + "unk8")
-        signatures.append(word)
+        signatures.append(word.lower())
         return signatures

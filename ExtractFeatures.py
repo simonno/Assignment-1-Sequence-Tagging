@@ -2,8 +2,15 @@ import sys
 from datetime import datetime
 from MLETrain import create_dicts
 from Utils.DictUtils import DictUtils
+from Utils.FeaturesUtils import FeaturesUtils
 from Utils.FileUtils import FileUtils
 
+MIN_NUM_OF_INSTANCES = 5
+
+def create_features_to_word(word, tag, features_dict, sentence):
+    all_features = (("form", word))
+    if FeaturesUtils.num_of_instaces() < MIN_NUM_OF_INSTANCES:
+        all_features += FeaturesUtils.add_all_features(word)
 
 
 def create_features(sentence, features_dict):

@@ -17,7 +17,3 @@ class FeaturesUtils:
         if num > len(word):
             num = len(word)
         return [word[:i] for i in range(num)]
-
-    @staticmethod
-    def contains_number(word):
-        

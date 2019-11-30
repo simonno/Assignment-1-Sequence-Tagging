@@ -6,6 +6,10 @@ UNK = '*UNK*'
 
 class DictUtils:
     @staticmethod
+    def get_value(dictionary, key):
+        return dictionary.get(key, 0)
+
+    @staticmethod
     def update_dict(dictionary, key, value=1):
         if key in dictionary:
             dictionary[key] += value
@@ -49,3 +53,21 @@ class DictUtils:
             else:
                 converted_dict[tuple] = value
         return converted_dict
+
+    @staticmethod
+    def convert_line_to_dict(lines):
+        dictionary = dict()
+        for line in lines:
+            key, value = line.split('\t')
+            if ' ' in key:
+                key = tuple(key.split(' '))
+            dictionary[key] = int(value)
+        return dictionary
+
+    @staticmethod
+    def possible_tags(word, dict_e):
+        tags = list()
+        for tuple, value in dict_e.items():
+            if word == tuple[0] or word.lower() == tuple[0]:
+                tags.append(tuple[1])
+        return tags

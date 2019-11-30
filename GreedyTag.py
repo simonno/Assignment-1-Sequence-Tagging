@@ -1,62 +1,80 @@
 import sys
+from datetime import datetime
 
 import numpy as np
 
-import dicUtils
+import MLETrain
+from DictUtils import DictUtils
+from FileUtils import FileUtils
+from WordSignature import WordSignatures
 
 START = 'START'
-dic_e = {}
-dic_q = {}
-num_word_count = 0
-unk_tsg_list = []
 
 
-def argmax(word, possible_tags_list, b, a):
+def argmax(word, possible_tags_list, prev_tag, prev_prev_tag, dict_q, dict_e):
     max_tag = possible_tags_list[0]
     max_prob = -np.math.inf
     for tag in possible_tags_list:
-        prob = dicUtils.get_score(dic_e, dic_q, num_word_count, word, tag, b, a)
+        prob = MLETrain.get_score(word, tag, prev_tag, prev_prev_tag, dict_q, dict_e)
         if prob > max_prob:
             max_prob = prob
             max_tag = tag
     return max_tag
 
 
-def greedy(input_file_name, greedy_hmm_output):
-    tagged_text = ''
+def get_word_signatures_tag(word, dict_e, unk_tag_list):
+    signatures = WordSignatures.get_word_signatures(word)
+    if word in signatures:
+        return unk_tag_list
+    else:
+        signatures_tags = list()
+        for signature in signatures:
+            signatures_tags.append(DictUtils.possible_tags(signature, dict_e))
+        return signatures_tags
 
-    with open(input_file_name, 'r') as input_file:
 
-        for line in input_file:
-            a = START
-            b = START
-            words = line.split('\n')[0].split(' ')
+def possible_tags(word, dict_e, unk_tag_list):
+    tags = DictUtils.possible_tags(word, dict_e)
+    if len(tags) == 0:
+        tags = get_word_signatures_tag(word, dict_e, unk_tag_list)
 
-            for index in range(len(words)):
-                word = words[index]
-                tags = dicUtils.possible_tags(dic_e, word.lower())
+    return tags
 
-                if len(tags) == 0:
-                    max_tag = argmax('*UNK*', unk_tsg_list, b, a)
-                else:
-                    max_tag = argmax(word.lower(), tags, b, a)
 
-                a = b
-                b = max_tag
-                tagged_text += str(word) + '/' + str(max_tag) + ' '
+def get_tags(sentence, dict_q, dict_e, unk_tag_list):
+    tagged_sentence = list()
+    prev_prev_tag = START
+    prev_tag = START
 
-            tagged_text.rstrip()
-            tagged_text += '\n'
+    for word in sentence.split(' '):
+        tag = argmax(word, possible_tags(word, dict_e, unk_tag_list), prev_tag, prev_prev_tag, dict_q, dict_e)
+        tagged_sentence.append((word, tag))
+        prev_prev_tag = prev_tag
+        prev_tag = tag
 
-    with open(greedy_hmm_output, 'w') as output_file:
-        output_file.write(tagged_text)
+    print(tagged_sentence)
+    return tagged_sentence
+
+
+def greedy(sentences, dict_q, dict_e, unk_tag_list):
+    tags = list()
+
+    for sentence in sentences:
+        tags.append(get_tags(sentence, dict_q, dict_e, unk_tag_list))
+
+    return tags
 
 
 def main(input_file_name, q_mle, e_mle, greedy_hmm_output, extra_file_name):
-    global dic_q, dic_e, num_word_count, unk_tsg_list
-    dic_e, num_word_count, unk_tsg_list = dicUtils.create_dic(e_mle)
-    dic_q, _, _ = dicUtils.create_dic(q_mle)
-    greedy(input_file_name, greedy_hmm_output)
+    start = datetime.now()
+    sentences = FileUtils.read_lines(input_file_name)
+    dict_q = DictUtils.convert_line_to_dict(FileUtils.read_lines(q_mle))
+    dict_e = DictUtils.convert_line_to_dict(FileUtils.read_lines(e_mle))
+    unk_tag_list = DictUtils.possible_tags('*UNK*', dict_e)
+    tagged_text = greedy(sentences, dict_q, dict_e, unk_tag_list)
+    FileUtils.write_tagged_text(greedy_hmm_output, tagged_text)
+    end = datetime.now()
+    print('Running Time: {0}'.format(end - start))
 
 
 if __name__ == "__main__":

@@ -6,6 +6,11 @@ UNK = '*unk*'
 
 class DictUtils:
     @staticmethod
+    def is_rare(dict_e, word, rare_factor=5):
+        num_of_instances = DictUtils.get_value(dict_e, word)
+        return True if num_of_instances <= rare_factor else False
+
+    @staticmethod
     def get_value(dictionary, key):
         return dictionary.get(key, 0)
 

@@ -1,37 +1,47 @@
 import sys
 from datetime import datetime
+
+import MLETrain
 from MLETrain import create_dicts
 from Utils.DictUtils import DictUtils
 from Utils.FeaturesUtils import FeaturesUtils
 from Utils.FileUtils import FileUtils
 
-MIN_NUM_OF_INSTANCES = 5
 
-def create_features_to_word(word, tag, features_dict, sentence):
-    all_features = (("form", word))
-    if FeaturesUtils.num_of_instaces() < MIN_NUM_OF_INSTANCES:
-        all_features += FeaturesUtils.add_all_features(word)
-
-
-def create_features(sentence, features_dict):
-    for tuple in sentence.split(' '):
+def convert_line_to_lists(line):
+    words = list()
+    tags = list()
+    for tuple in line.split(' '):
         word, tag = DictUtils.split_tuple(tuple)
-        features_dict[tag] = create_features(word, tag, features_dict, sentence)
+        words.append(word)
+        tags.append(tags)
 
-def extract_features(sentences):
+    return words, tags
+
+
+def create_features(features_dict, words, tags, dict_e):
+    for i in range(len(words)):
+        is_rare = DictUtils.is_rare(dict_e, words[i])
+        features_dict[tags[i]] = FeaturesUtils.get_word_features(i, words, tags, is_rare)
+        print(features_dict[tags[i]])
+    return features_dict
+
+
+def extract_features(lines, dict_e):
     features_dict = dict()
-    for sentence in sentences:
-        create_features(sentence, features_dict)
+    for line in lines:
+        words, tags = convert_line_to_lists(line)
+        create_features(features_dict, words, tags, dict_e)
+
+    return features_dict
 
 
 def main(corpus_file, features_file):
     start = datetime.now()
-    sentences = FileUtils.read_lines(corpus_file)
-    dict_q, dict_e = create_dicts(sentences)
-    features = extract_features(sentences)
-
+    lines = FileUtils.read_lines(corpus_file)
+    dict_q, dict_e = MLETrain.create_dicts(lines)
+    features = extract_features(lines, dict_e)
     FileUtils.write_features(features_file, features)
-
     end = datetime.now()
     print('Running Time: {0}'.format(end - start))
 

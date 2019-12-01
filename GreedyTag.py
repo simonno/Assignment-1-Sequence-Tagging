@@ -12,34 +12,35 @@ START = 'START'
 UNK = '*unk*'
 
 
-def argmax(word, possible_tags_list, prev_tag, prev_prev_tag, dict_q, dict_e):
-    max_tag = possible_tags_list[0]
+def argmax(possible_tags_dict, prev_tag, prev_prev_tag, dict_q, dict_e):
+    max_tag = ''
     max_prob = -np.math.inf
-    for tag in possible_tags_list:
-        prob = MLETrain.get_score(word, tag, prev_tag, prev_prev_tag, dict_q, dict_e)
-        if prob > max_prob:
-            max_prob = prob
-            max_tag = tag
+    for signature, tags in possible_tags_dict.items():
+        for tag in tags:
+            prob = MLETrain.get_score(signature, tag, prev_tag, prev_prev_tag, dict_q, dict_e)
+            if prob > max_prob:
+                max_prob = prob
+                max_tag = tag
     return max_tag
 
 
 def get_word_signatures_tag(word, dict_e, unk_tag_list):
     signatures = WordSignatures.get_word_signatures(word)
     if signatures == [word.lower()]:
-        return unk_tag_list
+        return {UNK: unk_tag_list}
     else:
-        signatures_tags = list()
+        signatures_tags = dict()
         for signature in signatures:
-            signatures_tags += DictUtils.possible_tags(signature, dict_e)
+            signatures_tags[signature] = DictUtils.possible_tags(signature, dict_e)
         return signatures_tags
 
 
 def possible_tags(word, dict_e, unk_tag_list):
-    tags = DictUtils.possible_tags(word, dict_e)
-    if len(tags) == 0:
-        tags = get_word_signatures_tag(word, dict_e, unk_tag_list)
-
-    return tags
+    words_tags = DictUtils.possible_tags(word, dict_e)
+    if len(words_tags) == 0:
+        return get_word_signatures_tag(word, dict_e, unk_tag_list)
+    else:
+        return {word: words_tags}
 
 
 def get_tags(sentence, dict_q, dict_e, unk_tag_list):
@@ -48,7 +49,7 @@ def get_tags(sentence, dict_q, dict_e, unk_tag_list):
     prev_tag = START
 
     for word in sentence.split(' '):
-        tag = argmax(word, possible_tags(word, dict_e, unk_tag_list), prev_tag, prev_prev_tag, dict_q, dict_e)
+        tag = argmax(possible_tags(word, dict_e, unk_tag_list), prev_tag, prev_prev_tag, dict_q, dict_e)
         tagged_sentence.append((word, tag))
         prev_prev_tag = prev_tag
         prev_tag = tag

@@ -1,0 +1,45 @@
+IN pref=t suff=to pt=JJ ppt=VB ppt_pt=VB JJ nw=other nnw=bidders pw=fair ppw=be
+DT pref=th suff=the pt=VB ppt=RB ppt_pt=RB VB nw=winning nnw=bidder pw=join ppw=perhaps
+NNP pref=UA suff=UAL pt=JJ ppt=CC ppt_pt=CC JJ nw=executives nnw=have pw=other ppw=and
+CD pref=20 suff=200 pt=$ ppt=VB ppt_pt=VB $ nw=a nnw=share pw=$ ppw=say
+NN pref=bid suff=dder pt=VBG ppt=DT ppt_pt=DT VBG nw=. pw=winning ppw=the
+`` pref=` suff=`` pt=VBD ppt=PRP ppt_pt=PRP VBD nw=highly nnw=confident pw=were ppw=they
+'' pref=' suff='' pt=JJ ppt=RB ppt_pt=RB JJ nw=of nnw=raising pw=confident ppw=highly
+POS pref= suff=' pt=NNS ppt=DT ppt_pt=DT NNS nw=bid nnw=, pw=pilots ppw=the
+( pref= suff=( pt=. ppt=NNP ppt_pt=NNP . nw=Rick nnw=) pw=. ppw=F.C
+VBN pref=for suff=rced pt=VB ppt=MD ppt_pt=MD VB nw=to nnw=exclude pw=be ppw=might
+NNS pref=bid suff=ders pt=JJ ppt=IN ppt_pt=IN JJ nw=. pw=other ppw=to
+VBP pref=hav suff=have pt=NNS ppt=NNP ppt_pt=NNP NNS nw=joined nnw=the pw=executives ppw=UAL
+, pref= suff=, pt=NN ppt=POS ppt_pt=POS NN nw=the nnw=board pw=bid ppw='
+CC pref=an suff=and pt=NN ppt=DT ppt_pt=DT NN nw=perhaps nnw=join pw=outcome ppw=the
+) pref= suff=) pt=NNP ppt=( ppt_pt=( NNP nw=Dubinsky nnw=faces pw=Rick ppw=(
+VBD pref=wer suff=were pt=PRP ppt=IN ppt_pt=IN PRP nw=to nnw=insist pw=they ppw=If
+RB pref=per suff=haps pt=CC ppt=NN ppt_pt=NN CC nw=join nnw=the pw=and ppw=outcome
+. pref= suff=. pt=NN ppt=VBG ppt_pt=VBG NN pw=bidder ppw=winning
+VBZ pref=ha suff=has pt=WP ppt=VB ppt_pt=VB WP nw=been nnw=a pw=what ppw=transform
+NNPS pref=Air suff=ways pt=NNP ppt=CC ppt_pt=CC NNP nw=PLC nnw=-- pw=British ppw=and
+PRP pref=hi suff=him pt=VB ppt=MD ppt_pt=MD VB nw=the nnw=chance pw=cost ppw=could
+PRP$ pref=it suff=its pt=IN ppt=PRP ppt_pt=PRP IN nw=deliberations nnw=in pw=from ppw=him
+TO pref=t suff=to pt=NN ppt=DT ppt_pt=DT NN nw=influence nnw=the pw=chance ppw=the
+VB pref=joi suff=join pt=RB ppt=CC ppt_pt=CC RB nw=the nnw=winning pw=perhaps ppw=and
+JJ pref=oth suff=ther pt=IN ppt=JJ ppt_pt=JJ IN nw=bidders nnw=. pw=to ppw=fair
+MD pref=cou suff=ould pt=DT nw=cost nnw=him pw=That
+VBG pref=win suff=ning pt=DT ppt=VB ppt_pt=VB DT nw=bidder nnw=. pw=the ppw=join
+RBR pref=mor suff=more pt=VB ppt=TO ppt_pt=TO VB nw=circumspect nnw=. pw=be ppw=to
+: pref=- suff=-- pt=NNP ppt=NNPS ppt_pt=NNPS NNP nw=is nnw=now pw=PLC ppw=Airways
+WP pref=wha suff=what pt=VB ppt=MD ppt_pt=MD VB nw=has nnw=been pw=transform ppw=could
+WDT pref=wha suff=ever pt=NN ppt=DT ppt_pt=DT NN nw=the nnw=board pw=acquisition ppw=an
+JJR pref=hig suff=gher pt=DT ppt=VB ppt_pt=VB DT nw=offer nnw=from pw=a ppw=obtain
+PDT pref=al suff=all pt=`` ppt=IN ppt_pt=IN `` nw=the nnw=damage pw=`` ppw=because
+RBS pref=bes suff=best pt=DT ppt=VB ppt_pt=VB DT nw=, nnw=Mr. pw=the ppw=work
+WRB pref=wh suff=why pt=VBG ppt=IN ppt_pt=IN VBG nw=banks nnw=refused pw=explaining ppw=of
+JJS pref=lar suff=gest pt=POS ppt=NN ppt_pt=NN POS nw=airline nnw=with pw='s ppw=nation
+$ pref= suff=$ pt=VB ppt=, ppt_pt=, VB nw=200 nnw=a pw=say ppw=,
+RP pref=apa suff=part pt=VB ppt=MD ppt_pt=MD VB nw=now nnw=. pw=break ppw=could
+FW pref=gla suff=nost pt=IN ppt=NNS ppt_pt=NNS IN nw=gone nnw=to pw=of ppw=freedoms
+EX pref=the suff=here pt=IN ppt=RB ppt_pt=RB IN nw=are nnw=n't pw=since ppw=especially
+SYM pref= suff=* nw=Actual nnw=performance
+# pref= suff=# pt=IN ppt=CD ppt_pt=CD IN nw=625.4 nnw=million pw=from ppw=million
+LS pref= suff=2 pt=( ppt=CC ppt_pt=CC ( nw=) nnw=the pw=( ppw=and
+UH pref=ye suff=yes pt=VBZ ppt=, ppt_pt=, VBZ nw=-- nnw=as pw=is ppw=,
+WP$ pref=who suff=hose pt=, ppt=NNP ppt_pt=NNP , nw=$ nnw=275-a-share pw=, ppw=Davis

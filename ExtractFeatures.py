@@ -14,7 +14,7 @@ def convert_line_to_lists(line):
     for tuple in line.split(' '):
         word, tag = DictUtils.split_tuple(tuple)
         words.append(word)
-        tags.append(tags)
+        tags.append(tag)
 
     return words, tags
 

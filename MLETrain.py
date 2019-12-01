@@ -12,7 +12,6 @@ def create_dicts(sentences):
     dict_q = dict()
     dict_e = dict()
     for sentence in sentences:
-        print(sentence)
         DictUtils.insert_sentence_to_dicts(dict_q, dict_e, sentence)
 
     dict_e = DictUtils.convert_rare_words(dict_e)

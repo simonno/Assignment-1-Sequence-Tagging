@@ -57,7 +57,7 @@ class FeaturesUtils:
             if i > 1:
                 prev_prev_tag = tags_list[i - 2]
                 feature_dict['ppt'] = prev_prev_tag
-                feature_dict['ppt_pt'] = '{0} {1}'.format(prev_prev_tag, prev_tag)
+                feature_dict['ppt_pt'] = '{0},{1}'.format(prev_prev_tag, prev_tag)
 
     @staticmethod
     def add_prev_next_words(feature_dict, i, words_list):

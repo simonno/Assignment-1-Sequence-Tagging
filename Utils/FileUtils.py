@@ -1,4 +1,5 @@
 class FileUtils:
+
     @staticmethod
     def read_lines(file_name):
         lines = []
@@ -6,6 +7,32 @@ class FileUtils:
             for line in file:
                 lines.append(line)
         return [line.strip() for line in lines]
+
+    @staticmethod
+    def add_new_features(all_tags_features, tag, tag_features):
+        if tag not in all_tags_features.keys():
+            all_tags_features[tag] = list()
+        all_tags_features[tag].append(tag_features)
+
+    @staticmethod
+    def read_features(file_name):
+        all_tags_features = dict()
+
+        with open(file_name, 'r') as file:
+            for line in file:
+                line = line.strip().split(' ')
+                tag = line[0]
+                tag_features = dict()
+
+                for feature in line[1:]:
+                    label, value = feature.split('=', 1)
+                    # if ',' in value:
+                    #      value = tuple(value.split(','))
+                    tag_features[label] = value
+
+                FileUtils.add_new_features(all_tags_features, tag, tag_features)
+
+        return all_tags_features
 
     @staticmethod
     def write_events_count(file_name, dictionary):

@@ -1,11 +1,24 @@
 import sys
 from datetime import datetime
-from sklearn.datasets import load_svmlight_file
+
+from sklearn.feature_extraction import DictVectorizer
+
+from Utils.FileUtils import FileUtils
+
+
+def create_features_format(dic):
+
+    vec = DictVectorizer()
+    vec.fit_transform(dic['NN']).toarray()
+    print(vec.get_feature_names())
 
 
 def main(features_file, model_file):
     start = datetime.now()
-    X_train, y_train = load_svmlight_file("/path/to/train_dataset.txt")
+    all_features = FileUtils.read_features(features_file)
+    print(all_features)
+    create_features_format(all_features)
+    # X_train, y_train = load_svmlight_file(features_file)
     end = datetime.now()
     print('Running Time: {0}'.format(end - start))
 

@@ -26,9 +26,10 @@ class FileUtils:
     @staticmethod
     def write_features(file_name, features):
         with open(file_name, 'w') as file:
-            for tag, tag_features_dict in features.items():
-                line = tag
-                for feature_key, feature_value in tag_features_dict.items():
-                    line += ' {0}={1}'.format(feature_key, feature_value)
+            for word_feature_dict in features:
+                line = word_feature_dict['tag']
+                for feature_key, feature_value in word_feature_dict.items():
+                    if feature_key != 'tag':
+                        line += ' {0}={1}'.format(feature_key, feature_value)
 
                 file.write(line + '\n')

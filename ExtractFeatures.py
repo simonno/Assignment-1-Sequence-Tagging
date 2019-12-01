@@ -19,21 +19,22 @@ def convert_line_to_lists(line):
     return words, tags
 
 
-def create_features(features_dict, words, tags, dict_e):
+def create_features(words_features_list, words, tags, dict_e):
     for i in range(len(words)):
         is_rare = DictUtils.is_rare(dict_e, words[i])
-        features_dict[tags[i]] = FeaturesUtils.get_word_features(i, words, tags, is_rare)
-        print(features_dict[tags[i]])
-    return features_dict
+        word_feature_dict = FeaturesUtils.get_word_features(i, words, tags, is_rare)
+        word_feature_dict['tag'] = tags[i]
+        words_features_list.append(word_feature_dict)
+        print(word_feature_dict)
 
 
 def extract_features(lines, dict_e):
-    features_dict = dict()
+    words_features_list = list()
     for line in lines:
         words, tags = convert_line_to_lists(line)
-        create_features(features_dict, words, tags, dict_e)
+        create_features(words_features_list, words, tags, dict_e)
 
-    return features_dict
+    return words_features_list
 
 
 def main(corpus_file, features_file):

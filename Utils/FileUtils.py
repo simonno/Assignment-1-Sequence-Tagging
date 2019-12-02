@@ -1,3 +1,6 @@
+import pickle
+
+
 class FileUtils:
 
     @staticmethod
@@ -16,29 +19,20 @@ class FileUtils:
 
     @staticmethod
     def read_features(file_name):
-        # all_tags_features = dict()
-        Y = list()
-        new_dic = list()
+        labels = list()
+        all_features = list()
         with open(file_name, 'r') as file:
             for line in file:
                 line = line.strip().split(' ')
-                tag = line[0]
-                Y.append(tag)
-                # tag_features = dict()
-                new_tag_features = dict()
+                labels.append(line[0])
+                features_dict = dict()
                 for feature in line[1:]:
-                    label, value = feature.split('=', 1)
-                    # if ',' in value:
-                    #      value = tuple(value.split(','))
-                    # tag_features[label] = value
-                    new_tag_features[label] = value
+                    feature_key, feature_value = feature.split('=', 1)
+                    features_dict[feature_key] = feature_value
 
-                # FileUtils.add_new_features(all_tags_features, tag, tag_features)
-                # FileUtils.add_new_features(new_dic, tag, new_tag_features)
-                new_dic.append(new_tag_features)
+                all_features.append(features_dict)
 
-        # return all_tags_features
-        return new_dic, Y
+        return all_features, labels
 
     @staticmethod
     def write_events_count(file_name, dictionary):
@@ -66,3 +60,15 @@ class FileUtils:
                         line += ' {0}={1}'.format(feature_key, feature_value)
 
                 file.write(line + '\n')
+
+    @staticmethod
+    def write_logistic_regression_model(file_name, model):
+        # print to model_file
+        with open(file_name, "wb") as file:
+            pickle.dump(model, file, fix_imports=True)
+
+    @staticmethod
+    def write_feature_map(feature_map_file, features_map):
+        with open(feature_map_file, "w") as file:
+            for feature_map in features_map:
+                file.write('{0}\n'.format(feature_map))

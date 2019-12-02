@@ -16,23 +16,29 @@ class FileUtils:
 
     @staticmethod
     def read_features(file_name):
-        all_tags_features = dict()
-
+        # all_tags_features = dict()
+        Y = list()
+        new_dic = list()
         with open(file_name, 'r') as file:
             for line in file:
                 line = line.strip().split(' ')
                 tag = line[0]
-                tag_features = dict()
-
+                Y.append(tag)
+                # tag_features = dict()
+                new_tag_features = dict()
                 for feature in line[1:]:
                     label, value = feature.split('=', 1)
                     # if ',' in value:
                     #      value = tuple(value.split(','))
-                    tag_features[label] = value
+                    # tag_features[label] = value
+                    new_tag_features[label] = value
 
-                FileUtils.add_new_features(all_tags_features, tag, tag_features)
+                # FileUtils.add_new_features(all_tags_features, tag, tag_features)
+                # FileUtils.add_new_features(new_dic, tag, new_tag_features)
+                new_dic.append(new_tag_features)
 
-        return all_tags_features
+        # return all_tags_features
+        return new_dic, Y
 
     @staticmethod
     def write_events_count(file_name, dictionary):

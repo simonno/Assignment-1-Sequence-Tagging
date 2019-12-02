@@ -18,7 +18,6 @@ def create_features_format(dic, Y, model_file):
     return transform_of_features, features_map, (clf, vec)
 
 
-
 def main(features_file, model_file):
     feature_map_file = 'Files/feature_map_file.txt'
     start = datetime.now()

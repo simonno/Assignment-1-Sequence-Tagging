@@ -2,7 +2,6 @@ import sys
 from datetime import datetime
 
 import MLETrain
-from MLETrain import create_dicts
 from Utils.DictUtils import DictUtils
 from Utils.FeaturesUtils import FeaturesUtils
 from Utils.FileUtils import FileUtils
@@ -21,7 +20,7 @@ def convert_line_to_lists(line):
 
 def create_features(words_features_list, words, tags, dict_e):
     for i in range(len(words)):
-        is_rare = DictUtils.is_rare(dict_e, words[i])
+        is_rare = DictUtils.is_rare(dict_e, (words[i], tags[i]))
         word_feature_dict = FeaturesUtils.get_word_features(i, words, tags, is_rare)
         word_feature_dict['tag'] = tags[i]
         words_features_list.append(word_feature_dict)

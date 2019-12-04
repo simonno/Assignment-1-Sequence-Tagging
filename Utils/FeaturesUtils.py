@@ -12,19 +12,19 @@ class FeaturesUtils:
     def all_prefixes(word, num=4):
         if num > len(word):
             num = len(word)
-        return [word[:i] for i in range(num)]
+        return [word[:i + 1] for i in range(num)]
 
     @staticmethod
     def add_prefixes_features(feature_dict, word):
         prefixes = FeaturesUtils.all_prefixes(word)
-        for prefix in prefixes:
-            feature_dict['pref'] = prefix
+        for i in range(len(prefixes)):
+            feature_dict['pref_{0}'.format(i + 1)] = prefixes[i]
 
     @staticmethod
     def add_suffixes_features(feature_dict, word):
         suffixes = FeaturesUtils.all_suffixes(word)
-        for suffix in suffixes:
-            feature_dict['suff'] = suffix
+        for i in range(len(suffixes)):
+            feature_dict['suff_{0}'.format(i + 1)] = suffixes[i]
 
     @staticmethod
     def is_contains_number(word):
@@ -83,7 +83,6 @@ class FeaturesUtils:
             FeaturesUtils.add_rare_word_features(feature_dict, words_list[i])
         else:
             feature_dict['form'] = words_list[i]
-
         FeaturesUtils.add_any_word_features(feature_dict, i, tags_list, words_list)
 
         return feature_dict

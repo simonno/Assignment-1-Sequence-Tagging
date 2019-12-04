@@ -1,3 +1,5 @@
+import re
+
 from Utils.WordSignature import WordSignatures
 
 START = 'START'
@@ -6,8 +8,8 @@ UNK = '*unk*'
 
 class DictUtils:
     @staticmethod
-    def is_rare(dict_e, word, rare_factor=5):
-        num_of_instances = DictUtils.get_value(dict_e, word)
+    def is_rare(dict_e, tuple, rare_factor=5):
+        num_of_instances = DictUtils.get_value(dict_e, tuple)
         return True if num_of_instances <= rare_factor else False
 
     @staticmethod
@@ -76,3 +78,40 @@ class DictUtils:
             if word.lower() == tuple[0]:
                 tags.append(tuple[1])
         return tags
+
+    @staticmethod
+    def add_word_tag(word_tag_dict, word, tag):
+        if word not in word_tag_dict.keys():
+            word_tag_dict[word] = list()
+        if tag not in word_tag_dict[word]:
+            word_tag_dict[word].append(tag)
+
+    @staticmethod
+    def extract_features(all_features, labels):
+        counters_dict = dict()
+        word_tag_dict = dict()
+        unk_tag_dict = dict()
+        for features_dict, tag in zip(all_features, labels):
+            if 'form' in features_dict.keys():  # not a rare word
+                word = features_dict['form']
+                DictUtils.add_word_tag(word_tag_dict, word, tag)
+                DictUtils.update_dict(counters_dict, word)
+            else:  # a rare word
+                DictUtils.update_dict(unk_tag_dict, tag)
+
+        return counters_dict, word_tag_dict, unk_tag_dict
+
+    @staticmethod
+    def create_features_dicts(feature_map_lines):
+        features = dict()
+        counters_dict = dict()
+        word_tag_dict = dict()
+        unk_tag_list = list()
+        for line in feature_map_lines:
+            if re.match(r'.*=.* : \d', line):
+                feature, index = line.split(' : ')
+                features[index] = feature
+            elif re.match(r'UNK_.*=\d', line):
+                unk_tag, count = line.split('=')
+                unk_tag_list.append(unk_tag.split('UNK_')[1])
+            elif re.match(r'.*=.*\d', line):

@@ -21,11 +21,11 @@ def create_features_numeric_format(word_features, features_map):
 def get_prediction_of_word(word_features, clf, feature_map):
     # clf works only on numbers format
     features_numeric_format = create_features_numeric_format(word_features, feature_map)
-    predict = clf.predict([features_numeric_format.tolist()])[0]
+    predict = clf.predict_proba([features_numeric_format.tolist()])[0]
     return predict
 
 
-def get_tags_of_sentence(sentence, features_map, counters_dict, clf):
+def get_tags_of_sentence(sentence, prev_predictions, prev_prev_predictions, features_map, counters_dict, clf):
     predictions = list()
     words_list = sentence.split()
     for i in range(len(words_list)):
@@ -49,17 +49,19 @@ def memm_greedy(sentences, features_map, counters_dict, clf):
     return tags
 
 
-def main(input_file_name, model_file, feature_map_file, out_file_name):
+def main(input_file_name, model_file_name, feature_map_file, output_file_name):
     start = datetime.now()
+
     sentences = FileUtils.read_lines(input_file_name)
     feature_map_lines = FileUtils.read_lines(feature_map_file)
     features_map, counters_dict = DictUtils.create_features_dicts(feature_map_lines)
 
-    model_file = open(model_file, 'rb')
+    model_file = open(model_file_name, 'rb')
     (clf, vec) = pickle.load(model_file)
 
     tagged_text = memm_greedy(sentences, features_map, counters_dict, clf)
-    FileUtils.write_tagged_text(out_file_name, tagged_text)
+    FileUtils.write_tagged_text(output_file_name, tagged_text)
+
     end = datetime.now()
     print('Running Time: {0}'.format(end - start))
 

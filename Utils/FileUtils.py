@@ -73,12 +73,12 @@ class FileUtils:
             for index in range(len(features_map)):
                 file.write('{0} : {1} \n'.format(features_map[index], index))
 
-            for word, tags_list in word_tag_dict.items():
-                for tag in tags_list:
-                    file.write('{0}={1}\n'.format(word, tag))
+            # for word, tags_list in word_tag_dict.items():
+            #     for tag in tags_list:
+            #         file.write('{0}={1}\n'.format(word, tag))
 
             for word, counter in counters_dict.items():
                 file.write('{0}={1}\n'.format(word, counter))
 
-            for tag, counter in unk_tad_dict.items():
-                file.write('UNK_{0}={1}\n'.format(tag, counter))
+            # for tag, counter in unk_tad_dict.items():
+            #     file.write('UNK_{0}={1}\n'.format(tag, counter))

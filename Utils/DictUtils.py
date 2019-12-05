@@ -8,8 +8,8 @@ UNK = '*unk*'
 
 class DictUtils:
     @staticmethod
-    def is_rare(dict_e, tuple, rare_factor=5):
-        num_of_instances = DictUtils.get_value(dict_e, tuple)
+    def is_rare(dictionary, key, rare_factor=5):
+        num_of_instances = DictUtils.get_value(dictionary, key)
         return True if num_of_instances <= rare_factor else False
 
     @staticmethod
@@ -106,12 +106,12 @@ class DictUtils:
         features = dict()
         counters_dict = dict()
         word_tag_dict = dict()
-        unk_tag_list = list()
         for line in feature_map_lines:
             if re.match(r'.*=.* : \d', line):
                 feature, index = line.split(' : ')
-                features[index] = feature
-            elif re.match(r'UNK_.*=\d', line):
-                unk_tag, count = line.split('=')
-                unk_tag_list.append(unk_tag.split('UNK_')[1])
-            elif re.match(r'.*=.*\d', line):
+                features[feature] = int(index)
+            # elif re.match(r'.*=\d', line):
+            else:
+                word, count = line.split('=')
+                counters_dict[word] = int(count)
+        return features, counters_dict

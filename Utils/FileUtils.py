@@ -12,6 +12,20 @@ class FileUtils:
         return [line.strip() for line in lines]
 
     @staticmethod
+    def read_sentences(file_name):
+        sentences = list()
+        max_sentence_len = 0
+        with open(file_name, 'r') as file:
+            for sentence in file:
+                sentences.append(list())
+                words = sentence.strip().split(" ")
+                for word in words:
+                    sentences[-1].append(word)
+                if len(sentences[-1]) > max_sentence_len:
+                    max_sentence_len = len(sentences[-1])
+        return sentences, max_sentence_len
+
+    @staticmethod
     def add_new_features(all_tags_features, tag, tag_features):
         if tag not in all_tags_features.keys():
             all_tags_features[tag] = list()
@@ -68,6 +82,12 @@ class FileUtils:
             pickle.dump(model, file, fix_imports=True)
 
     @staticmethod
+    def read_logistic_regression_model(file_name):
+        with open(file_name, 'rb') as model_file:
+            (clf, vec) = pickle.load(model_file)
+        return clf, vec
+
+    @staticmethod
     def write_feature_map(feature_map_file, features_map, counters_dict, word_tag_dict, unk_tad_dict):
         with open(feature_map_file, "w") as file:
             for index in range(len(features_map)):
@@ -82,3 +102,11 @@ class FileUtils:
 
             for word, counter in counters_dict.items():
                 file.write('{0}={1}\n'.format(word, counter))
+
+    @staticmethod
+    def write_prediction(file_name, sentences, sentences_predictions):
+        with open(file_name, 'w') as file:
+            for sentence, sentence_predictions in zip(sentences, sentences_predictions):
+                tuples = ['{0}/{1}'.format(word, prediction) for word, prediction in
+                          zip(sentence, sentence_predictions)]
+                file.write(' '.join(tuples) + '\n')

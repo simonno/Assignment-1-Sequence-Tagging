@@ -21,11 +21,11 @@ def create_features_numeric_format(word_features, features_map):
 def get_prediction_of_word(word_features, clf, feature_map):
     # clf works only on numbers format
     features_numeric_format = create_features_numeric_format(word_features, feature_map)
-    predict = clf.predict_proba([features_numeric_format.tolist()])[0]
+    predict = clf.predict([features_numeric_format.tolist()])[0]
     return predict
 
 
-def get_tags_of_sentence(sentence, prev_predictions, prev_prev_predictions, features_map, counters_dict, clf):
+def get_tags_of_sentence(sentence, features_map, counters_dict, clf):
     predictions = list()
     words_list = sentence.split()
     for i in range(len(words_list)):
@@ -54,7 +54,7 @@ def main(input_file_name, model_file_name, feature_map_file, output_file_name):
 
     sentences = FileUtils.read_lines(input_file_name)
     feature_map_lines = FileUtils.read_lines(feature_map_file)
-    features_map, counters_dict = DictUtils.create_features_dicts(feature_map_lines)
+    features_map, counters_dict, word_tag_dict, unk_tag_list = DictUtils.create_features_dicts(feature_map_lines)
 
     model_file = open(model_file_name, 'rb')
     (clf, vec) = pickle.load(model_file)

@@ -40,8 +40,7 @@ def max_prob_and_tag(v_table, i, w_i, tag, prev_tag, prev_prev_tags, dict_q, dic
     max_tag = prev_prev_tags[0]
     for prev_prev_tag in prev_prev_tags:
         prob = v_table[(i - 1, prev_prev_tag, prev_tag)] + MLETrain.get_score(w_i.lower(), tag, prev_tag, prev_prev_tag,
-                                                                              dict_q,
-                                                                              dict_e)
+                                                                              dict_q, dict_e)
         if prob > max_prob:
             max_prob = prob
             max_tag = prev_prev_tag

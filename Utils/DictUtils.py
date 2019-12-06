@@ -102,16 +102,28 @@ class DictUtils:
         return counters_dict, word_tag_dict, unk_tag_dict
 
     @staticmethod
+    def insert_tag(word_tag_dict, word, tag):
+        if word not in word_tag_dict.keys():
+            word_tag_dict[word] = list()
+        word_tag_dict[word].append(tag)
+
+    @staticmethod
     def create_features_dicts(feature_map_lines):
         features = dict()
         counters_dict = dict()
         word_tag_dict = dict()
+        unk_tag_list = list()
         for line in feature_map_lines:
             if re.match(r'.*=.* : \d', line):
                 feature, index = line.split(' : ')
                 features[feature] = int(index)
-            # elif re.match(r'.*=\d', line):
+            elif re.match(r'.*/.*', line):
+                word, tag = line.rsplit('/', 1)
+                if word == 'UNK':
+                    unk_tag_list.append(tag)
+                else:
+                    DictUtils.insert_tag(word_tag_dict, word, tag)
             else:
                 word, count = line.split('=')
                 counters_dict[word] = int(count)
-        return features, counters_dict
+        return features, counters_dict, word_tag_dict, unk_tag_list

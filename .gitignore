@@ -1,11 +1,12 @@
 
 \.idea/
 .idea/
+!.idea/runConfigurations
 
 __pycache__/
 
 \Files/
 Files/
+
 ner-files/
 \ner-files/
-!.idea/runConfigurations

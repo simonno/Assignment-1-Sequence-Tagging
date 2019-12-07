@@ -65,7 +65,7 @@ def main(input_file_name, model_file_name, feature_map_file, output_file_name):
     clf, vec = FileUtils.read_logistic_regression_model(model_file_name)
     sentences, max_sentence_len = FileUtils.read_sentences(input_file_name)
     feature_map_lines = FileUtils.read_lines(feature_map_file)
-    features_map, counters_dict, word_tag_dict, unk_tag_list = DictUtils.create_features_dicts(feature_map_lines)
+    features_map, counters_dict = DictUtils.create_features_dicts(feature_map_lines)
 
     sentences_predictions = memm_greedy(sentences, max_sentence_len, features_map, counters_dict, clf)
     FileUtils.write_prediction(output_file_name, sentences, sentences_predictions)

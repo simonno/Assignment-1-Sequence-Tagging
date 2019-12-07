@@ -111,19 +111,11 @@ class DictUtils:
     def create_features_dicts(feature_map_lines):
         features = dict()
         counters_dict = dict()
-        word_tag_dict = dict()
-        unk_tag_list = list()
         for line in feature_map_lines:
             if re.match(r'.*=.* : \d', line):
-                feature, index = line.split(' : ')
+                feature, index = line.rsplit(' : ', 1)
                 features[feature] = int(index)
-            elif re.match(r'.*/.*', line):
-                word, tag = line.rsplit('/', 1)
-                if word == 'UNK':
-                    unk_tag_list.append(tag)
-                else:
-                    DictUtils.insert_tag(word_tag_dict, word, tag)
             else:
-                word, count = line.split('=')
+                word, count = line.rsplit('=', 1)
                 counters_dict[word] = int(count)
-        return features, counters_dict, word_tag_dict, unk_tag_list
+        return features, counters_dict

@@ -9,8 +9,6 @@ from Utils.FeaturesUtils import FeaturesUtils
 from Utils.FileUtils import FileUtils
 
 START = 'START'
-UNK = '*unk*'
-
 
 def get_words(sentence):
     return sentence.split(' ')
@@ -131,7 +129,7 @@ def get_tuples_dict(i, words, prev_predictions, prev_prev_predictions, counters_
             for tag, prob in zip(classes, probs):
                 tuples_dict[(tag, prev_prediction, prev_prev_prediction)] = prob
 
-    return get_best_tuples(tuples_dict)
+    return get_best_tuples(tuples_dict, 1)
     # return tuples_dict
 
 
@@ -182,7 +180,7 @@ def main(input_file_name, model_file_name, feature_map_file, output_file_name):
     classes = clf.classes_.tolist()
     sentences = FileUtils.read_lines(input_file_name)
     feature_map_lines = FileUtils.read_lines(feature_map_file)
-    features_map, counters_dict, word_tag_dict, unk_tag_list = DictUtils.create_features_dicts(feature_map_lines)
+    features_map, counters_dict = DictUtils.create_features_dicts(feature_map_lines)
 
     tagged_text = viterbi(sentences, features_map, counters_dict, clf, classes)
     FileUtils.write_tagged_text(output_file_name, tagged_text)

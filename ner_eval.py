@@ -84,7 +84,8 @@ if __name__ == '__main__':
     print()
     prec = len(gold_entities.intersection(pred_entities)) / float(len(pred_entities))
     rec = len(gold_entities.intersection(pred_entities)) / float(len(gold_entities))
-    print("All-types \tPrec:%s Rec:%s" % (prec, rec))
+    f_measure = 2 * (prec * rec) / (prec + rec)
+    print("All-types \tPrec:%s Rec:%s F-measure:%s" % (prec, rec, f_measure))
 
     types = set([e[1][1] for e in gold_entities]) - {"O"}
     for t in types:
@@ -92,4 +93,5 @@ if __name__ == '__main__':
         pents = set([e for e in pred_entities if e[1][1] == t])
         prec = len(gents.intersection(pents)) / float(len(pents))
         rec = len(gents.intersection(pents)) / float(len(gents))
-        print("%10s \tPrec:%s Rec:%s" % (t, prec, rec))
+        f_measure = 2 *(prec * rec) / (prec + rec)
+        print("%10s \tPrec:%s Rec:%s F-measure:%s" % (t, prec, rec, f_measure))

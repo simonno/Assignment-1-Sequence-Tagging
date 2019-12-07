@@ -8,3 +8,4 @@ __pycache__/
 Files/
 ner-files/
 \ner-files/
+!.idea/runConfigurations

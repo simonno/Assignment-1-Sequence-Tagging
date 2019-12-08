@@ -4,8 +4,8 @@ from datetime import datetime
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
 
-from Utils.DictUtils import DictUtils
-from Utils.FileUtils import FileUtils
+from DictUtils import DictUtils
+from FileUtils import FileUtils
 
 
 def create_features_format(all_features, labels):

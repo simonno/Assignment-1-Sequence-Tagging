@@ -3,9 +3,9 @@ from datetime import datetime
 
 import numpy as np
 
-from Utils.DictUtils import DictUtils
-from Utils.FileUtils import FileUtils
-from Utils.MathUtils import MathUtils
+from DictUtils import DictUtils
+from FileUtils import FileUtils
+from MathUtils import MathUtils
 
 
 def create_dicts(sentences):

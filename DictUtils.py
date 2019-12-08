@@ -1,6 +1,6 @@
 import re
 
-from Utils.WordSignature import WordSignatures
+from WordSignature import WordSignatures
 
 START = 'START'
 UNK = '*unk*'

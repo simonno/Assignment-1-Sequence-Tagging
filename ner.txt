@@ -1,0 +1,55 @@
+1. per-token accuracies for the NER data:
+   # GreedyTag:       91.11%
+   # HMMTag:          94.07%
+   # GreedyMaxEntTag: 97.33%
+   # MEMMTag:         95.58%
+
+2. Tagger             precision:  recall:     F:          2*F = F1:
+   GreedyTag          54.53%      69.32%      30.52%      61.04%
+   HMMTag             65.84%      78.48%      38.11%      76.22%
+   GreedyMaxEntTag    85.26%      87.41%      43.16%      86.32%
+   MEMMTag            75.21%      68.61%      35.88%      71.76%
+
+3.
+    a.  The Ner results are little lower than the results of POS.
+        The Ner data has less tags then the POS tags, and it can influence on the results,
+        because different words can get the same tag or the same tag may relate to more than one thing.
+        Another option, that the features that help us to "predict" the prob of words are not fit enough to the Ner data and relate more to the POS words.
+
+    b.  The span-based F scores are lower than the accuracy scores. Why?
+        F1-score is the harmonic mean of Precision and Recall and therefore gives a better measure of the incorrectly
+        classified cases than the Accuracy Metric. In the ner tagging there are many words that was tagged as O,
+        therefore each failure of O impact F more the accuracy.
+
+4. Discussion about the improvements in the MEMM taggers are in the 'writeup.pdf' file (7) .
+
+
+HMM:
+    Greedy - Accuracy: 0.9111442863236263
+        All-types	Prec:0.5452709525412319 Rec:0.693196405648267 F-measure:0.30519969856819895 F1:0.6103993971363979
+        LOC	        Prec:0.7054980947196516 Rec:0.7268648345485137 F-measure:0.3580110497237569 F1:0.7160220994475138
+        PER	        Prec:0.49294245385450597 Rec:0.6618075801749271 F-measure:0.2825140012445551 F1:0.5650280024891102
+        MISC	    Prec:0.561822125813449 Rec:0.7485549132947977 F-measure:0.32094175960346966 F1:0.6418835192069393
+        ORG	        Prec:0.3862788963460104 Rec:0.626360338573156 F-measure:0.23892988929889297 F1:0.47785977859778594
+
+    Viterbi - Accuracy: 0.9407111559191903
+        All-types	Prec:0.6583641871423763 Rec:0.7847542627883651 F-measure:0.35801226320124463 F1:0.7160245264024893
+        LOC	        Prec:0.7338051170386499 Rec:0.7929411764705883 F-measure:0.3811139383658468 F1:0.7622278767316936
+        MISC	    Prec:0.6409978308026031 Rec:0.7964959568733153 F-measure:0.3551682692307692 F1:0.7103365384615384
+        PER	        Prec:0.7247557003257329 Rec:0.8519463943841736 F-measure:0.3916104429451452 F1:0.7832208858902904
+        ORG         Prec:0.47576435495898584 Rec:0.6536885245901639 F-measure:0.27535606387570133 F1:0.5507121277514027
+
+MEMM:
+    Greedy - Accuracy: 0.9733219589747567
+        All-types   Prec:0.8525748906092225 Rec:0.8740510697032436 F-measure:0.4315897086386096 F1:0.8631794172772193
+        LOC     	Prec:0.8987479586281981 Rec:0.9051535087719298 F-measure:0.4509696804151871 F1:0.9019393608303742
+        ORG     	Prec:0.7822520507084265 Rec:0.8094135802469136 F-measure:0.39780053090633294 F1:0.7956010618126659
+        MISC    	Prec:0.8026030368763557 Rec:0.8604651162790697 F-measure:0.4152637485970819 F1:0.8305274971941639
+        PER     	Prec:0.8827361563517915 Rec:0.8953744493392071 F-measure:0.44450519409513395 F1:0.8890103881902679
+
+    MEMMTag - Accuracy: 0.955833882663151
+        All-types	Prec:0.7521036687983844 Rec:0.6860607921400061 F-measure:0.35878291586384076 F1:0.7175658317276815
+        ORG	        Prec:0.674123788217748 Rec:0.5323910482921084 F-measure:0.2974662717999342 F1:0.5949325435998684
+        PER	        Prec:0.7307274701411509 Rec:0.6995841995841996 F-measure:0.35740839086563997 F1:0.7148167817312799
+        LOC     	Prec:0.8546543277082199 Rec:0.7807061163600199 F-measure:0.40800415800415796 F1:0.8160083160083159
+        MISC	    Prec:0.7039045553145337 Rec:0.7366628830874007 F-measure:0.35995562950637827 F1:0.7199112590127565

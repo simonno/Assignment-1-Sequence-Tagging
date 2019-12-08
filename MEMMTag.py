@@ -4,9 +4,9 @@ from datetime import datetime
 import numpy as np
 from scipy import sparse
 
-from Utils.DictUtils import DictUtils
-from Utils.FeaturesUtils import FeaturesUtils
-from Utils.FileUtils import FileUtils
+from DictUtils import DictUtils
+from FeaturesUtils import FeaturesUtils
+from FileUtils import FileUtils
 
 START = 'START'
 

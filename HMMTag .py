@@ -4,9 +4,9 @@ from datetime import datetime
 import numpy as np
 
 import MLETrain
-from Utils.DictUtils import DictUtils
-from Utils.FileUtils import FileUtils
-from Utils.WordSignature import WordSignatures
+from DictUtils import DictUtils
+from FileUtils import FileUtils
+from WordSignature import WordSignatures
 
 START = 'START'
 UNK = '*unk*'

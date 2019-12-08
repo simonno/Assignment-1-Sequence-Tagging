@@ -10,6 +10,7 @@ from Utils.FileUtils import FileUtils
 
 START = 'START'
 
+
 def get_words(sentence):
     return sentence.split(' ')
 
@@ -102,13 +103,15 @@ def get_tag_list(index, prev_predictions, prev_prev_predictions):
 
 def get_word_features_list(i, words, prev_predictions, prev_prev_predictions, counters_dict):
     all_word_features = list()
+    prev_list = list()
     for prev_prediction in prev_predictions:
         for prev_prev_prediction in prev_prev_predictions:
             word_features = FeaturesUtils.get_word_features(i, words,
                                                             get_tag_list(i, prev_prediction, prev_prev_prediction),
                                                             DictUtils.is_rare(counters_dict, words[i]))
             all_word_features.append(word_features)
-    return all_word_features
+            prev_list.append((prev_prediction, prev_prev_prediction))
+    return all_word_features, prev_list
 
 
 def get_best_tuples(tuples_dict, num_of_best_items=50):
@@ -121,15 +124,14 @@ def get_best_tuples(tuples_dict, num_of_best_items=50):
 
 def get_tuples_dict(i, words, prev_predictions, prev_prev_predictions, counters_dict, clf, features_map, classes):
     tuples_dict = dict()
-    all_word_features = get_word_features_list(i, words, prev_predictions, prev_prev_predictions, counters_dict)
+    all_word_features, prev_list = get_word_features_list(i, words, prev_predictions, prev_prev_predictions, counters_dict)
     predict_probabilities = get_predict_prob_of_word(all_word_features, clf, features_map)
 
-    for prev_prediction in prev_predictions:
-        for prev_prev_prediction, probs in zip(prev_prev_predictions, predict_probabilities):
-            for tag, prob in zip(classes, probs):
-                tuples_dict[(tag, prev_prediction, prev_prev_prediction)] = prob
+    for (prev_prediction, prev_prev_prediction), probs in zip(prev_list, predict_probabilities):
+        for tag, prob in zip(classes, probs):
+            tuples_dict[(tag, prev_prediction, prev_prev_prediction)] = prob
 
-    return get_best_tuples(tuples_dict, 1)
+    return get_best_tuples(tuples_dict, 50)
     # return tuples_dict
 
 

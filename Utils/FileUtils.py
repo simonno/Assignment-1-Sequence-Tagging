@@ -88,7 +88,7 @@ class FileUtils:
         return clf, vec
 
     @staticmethod
-    def write_feature_map(feature_map_file, features_map, counters_dict, word_tag_dict, unk_tad_dict):
+    def write_feature_map(feature_map_file, features_map, counters_dict):
         with open(feature_map_file, "w") as file:
             for index in range(len(features_map)):
                 file.write('{0} : {1} \n'.format(features_map[index], index))

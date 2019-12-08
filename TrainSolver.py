@@ -25,7 +25,7 @@ def main(features_file, model_file):
     all_features, labels = FileUtils.read_features(features_file)
     counters_dict, word_tag_dict, unk_tad_dict = DictUtils.extract_features(all_features, labels)
     transform_of_features, features_map, model = create_features_format(all_features, labels)
-    FileUtils.write_feature_map(feature_map_file, features_map, counters_dict, word_tag_dict, unk_tad_dict)
+    FileUtils.write_feature_map(feature_map_file, features_map, counters_dict)
     FileUtils.write_logistic_regression_model(model_file, model)
     end = datetime.now()
     print('Running Time: {0}'.format(end - start))

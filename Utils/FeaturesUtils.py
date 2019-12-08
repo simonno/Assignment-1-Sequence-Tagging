@@ -15,16 +15,16 @@ class FeaturesUtils:
         return [word[:i + 1] for i in range(num)]
 
     @staticmethod
-    def add_prefixes_features(feature_dict, word):
+    def add_prefixes_features(feature_dict, word, type_word_string):
         prefixes = FeaturesUtils.all_prefixes(word)
         for i in range(len(prefixes)):
-            feature_dict['pref_{0}'.format(i + 1)] = prefixes[i]
+            feature_dict['{0}_pref_{1}'.format(type_word_string, i + 1)] = prefixes[i]
 
     @staticmethod
-    def add_suffixes_features(feature_dict, word):
+    def add_suffixes_features(feature_dict, word, type_word_string):
         suffixes = FeaturesUtils.all_suffixes(word)
         for i in range(len(suffixes)):
-            feature_dict['suff_{0}'.format(i + 1)] = suffixes[i]
+            feature_dict['{0}_suff_{1}'.format(type_word_string, i + 1)] = suffixes[i]
 
     @staticmethod
     def is_contains_number(word):
@@ -40,14 +40,12 @@ class FeaturesUtils:
 
     @staticmethod
     def add_rare_word_features(feature_dict, word):
-        FeaturesUtils.add_prefixes_features(feature_dict, word)
-        FeaturesUtils.add_suffixes_features(feature_dict, word)
         if FeaturesUtils.is_contains_number(word):
-            feature_dict['contains_number'] = 'true'
+            feature_dict['contains_number'] = 'True'
         if FeaturesUtils.is_contains_uppercase(word):
-            feature_dict['contains_uppercase'] = 'true'
+            feature_dict['contains_uppercase'] = 'True'
         if FeaturesUtils.is_contains_hyphen(word):
-            feature_dict['contains_hyphen'] = 'true'
+            feature_dict['contains_hyphen'] = 'True'
 
     @staticmethod
     def add_prev_tags_features(feature_dict, i, tags_list):
@@ -62,17 +60,18 @@ class FeaturesUtils:
     @staticmethod
     def add_prev_next_words(feature_dict, i, words_list):
         if i + 1 < len(words_list):
-            feature_dict['nw'] = words_list[i + 1]
+            FeaturesUtils.features(feature_dict, words_list[i + 1], 'nw')
             if i + 2 < len(words_list):
-                feature_dict['nnw'] = words_list[i + 2]
+                FeaturesUtils.features(feature_dict, words_list[i + 2], 'nnw')
 
         if i > 0:
-            feature_dict['pw'] = words_list[i - 1]
+            FeaturesUtils.features(feature_dict, words_list[i - 1], 'pw')
             if i > 1:
-                feature_dict['ppw'] = words_list[i - 2]
+                FeaturesUtils.features(feature_dict, words_list[i - 1], 'ppw')
 
     @staticmethod
     def add_any_word_features(feature_dict, i, tags_list, words_list):
+        FeaturesUtils.features(feature_dict, words_list[i], 'curr')
         FeaturesUtils.add_prev_tags_features(feature_dict, i, tags_list)
         FeaturesUtils.add_prev_next_words(feature_dict, i, words_list)
 
@@ -86,3 +85,9 @@ class FeaturesUtils:
         FeaturesUtils.add_any_word_features(feature_dict, i, tags_list, words_list)
 
         return feature_dict
+
+    @staticmethod
+    def features(feature_dict, word, type_word_string):
+        FeaturesUtils.add_prefixes_features(feature_dict, word, type_word_string)
+        FeaturesUtils.add_suffixes_features(feature_dict, word, type_word_string)
+        feature_dict[type_word_string + '_len'] = str(len(word))

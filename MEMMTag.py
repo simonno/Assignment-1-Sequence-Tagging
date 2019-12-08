@@ -58,11 +58,7 @@ def calc_v_table_at_i(v_table, bq, i, tuples_dict):
 
         score = v_table[(i - 1, prev_prev_prediction, prev_prediction)] * tuples_dict[key]
 
-        if (i, prev_prediction, tag) not in v_table:
-            v_table[(i, prev_prediction, tag)] = score
-            bq[(i, prev_prediction, tag)] = prev_prev_prediction
-
-        elif v_table[(i, prev_prediction, tag)] < score:
+        if (i, prev_prediction, tag) not in v_table or v_table[(i, prev_prediction, tag)] < score:
             v_table[(i, prev_prediction, tag)] = score
             bq[(i, prev_prediction, tag)] = prev_prev_prediction
 
@@ -147,14 +143,10 @@ def viterbi(sentences, features_map, counters_dict, clf, classes):
         start = datetime.now()
 
         for i in range(len(words)):
-            # print(words[i])
-            # print(prev_prev_predictions)
-            # print(prev_predictions)
             tuples_dict = get_tuples_dict(i, words, prev_predictions, prev_prev_predictions, counters_dict, clf,
                                           features_map, classes)
 
             calc_v_table_at_i(v_table, bq, i, tuples_dict)
-            end = datetime.now()
 
             prev_predictions = list()
             prev_prev_predictions = list()

@@ -19,8 +19,7 @@ def create_features_format(all_features, labels):
     return transform_of_features, features_map, (clf, vec)
 
 
-def main(features_file, model_file):
-    feature_map_file = 'Files/feature_map_file.txt'
+def main(features_file, model_file, feature_map_file):
     start = datetime.now()
     all_features, labels = FileUtils.read_features(features_file)
     counters_dict, word_tag_dict, unk_tad_dict = DictUtils.extract_features(all_features, labels)
@@ -32,4 +31,4 @@ def main(features_file, model_file):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], sys.argv[3])
